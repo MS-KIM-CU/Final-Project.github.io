@@ -1,0 +1,28 @@
+name: "Air Pollution & Asthma in NYC"
+output_dir: docs
+navbar:
+  title: "PM2.5 & Asthma Analysis"
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "Exploratory Analysis"
+      menu:
+        - text: "Time Series (Jiaqi)"
+          href: time_series.html
+        - text: "Scatterplots & Seasonal (Bruce)"
+          href: scatterplots.html
+        - text: "Borough Comparison & Heatmaps (Brenda)"
+          href: brenda_analysis.html
+    - text: "Statistical Modeling"
+      href: modeling.html
+    - text: "Report"
+      href: report.html
+  right:
+    - icon: fa-github
+      href: https://github.com/MS-KIM-CU/Final-Project.github.io
+output:
+  html_document:
+    theme: cosmo
+    highlight: tango
+    toc: true
+    toc_float: true
