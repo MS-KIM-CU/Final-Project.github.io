@@ -1,0 +1,382 @@
+---
+title: "Exploratory Data Analysis"
+author: "Minseo Brenda Kim"
+date: "2025-11-21"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Load Libraries and Data
+
+```{r load-packages}
+library(tidyverse)
+library(viridis)
+library(ggthemes)
+library(scales)
+library(patchwork)
+```
+
+```{r load-data}
+# Load the merged dataset
+df <- read_csv("data/merged_pm25_asthma.csv")
+
+# Preview the data
+head(df)
+str(df)
+```
+
+## Data Preparation
+
+```{r data-prep}
+# Convert to long format for easier plotting of PM2.5 seasonal data
+df_long <- df %>%
+  pivot_longer(
+    cols = c(pm25_annual, pm25_summer, pm25_winter),
+    names_to = "pm25_type",
+    values_to = "pm25_value"
+  ) %>%
+  mutate(
+    pm25_type = case_when(
+      pm25_type == "pm25_annual" ~ "Annual",
+      pm25_type == "pm25_summer" ~ "Summer",
+      pm25_type == "pm25_winter" ~ "Winter"
+    ),
+    pm25_type = factor(pm25_type, levels = c("Annual", "Summer", "Winter")),
+    borough = factor(borough, levels = c("Manhattan", "Bronx", "Brooklyn", "Queens", "Staten Island"))
+  )
+
+# Also prepare main df with borough as factor
+df <- df %>%
+  mutate(borough = factor(borough, levels = c("Manhattan", "Bronx", "Brooklyn", "Queens", "Staten Island")))
+```
+
+---
+
+# Borough Comparison Using Faceting {.tabset}
+
+## 1. PM2.5 Trends by Borough (Faceted)
+
+This visualization shows how PM2.5 concentrations have changed over time in each borough.
+
+```{r facet-pm25-trends, fig.height=8}
+ggplot(df, aes(x = year, y = pm25_annual, color = borough)) +
+  geom_line(linewidth = 1.2) +
+  geom_point(size = 2.5) +
+  facet_wrap(~ borough, ncol = 2) +
+  scale_color_viridis_d(option = "plasma") +
+  scale_x_continuous(breaks = seq(2009, 2023, 2)) +
+  labs(
+    title = "Annual PM2.5 Concentration Trends by NYC Borough (2009-2023)",
+    subtitle = "All boroughs show declining air pollution over time",
+    x = "Year",
+    y = expression("PM2.5 Concentration ("*mu*"g/m³)"),
+    caption = "Data Source: NYC Open Data"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold", size = 14),
+    strip.text = element_text(face = "bold", size = 11),
+    strip.background = element_rect(fill = "gray90", color = NA),
+    legend.position = "none",
+    panel.grid.minor = element_blank()
+  )
+```
+
+## 2. Asthma ED Visit Rates by Borough (Faceted)
+
+This visualization shows asthma emergency department visit rates over time by borough.
+
+```{r facet-asthma-trends, fig.height=8}
+ggplot(df, aes(x = year, y = asthma_rate, color = borough)) +
+  geom_line(linewidth = 1.2) +
+  geom_point(size = 2.5) +
+  facet_wrap(~ borough, ncol = 2, scales = "free_y") +
+  scale_color_viridis_d(option = "plasma") +
+  scale_x_continuous(breaks = seq(2009, 2023, 2)) +
+  labs(
+    title = "Asthma ED Visit Rates by NYC Borough (2009-2023)",
+    subtitle = "The Bronx consistently shows the highest rates; all boroughs show improvement",
+    x = "Year",
+    y = "Asthma ED Visits (per 10,000 residents)",
+    caption = "Data Source: NYC DOHMH"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold", size = 14),
+    strip.text = element_text(face = "bold", size = 11),
+    strip.background = element_rect(fill = "gray90", color = NA),
+    legend.position = "none",
+    panel.grid.minor = element_blank()
+  )
+```
+
+## 3. PM2.5 vs Asthma Rate Scatterplot (Faceted by Borough)
+
+This faceted scatterplot explores the relationship between PM2.5 and asthma ED visits within each borough.
+
+```{r facet-scatter, fig.height=8}
+ggplot(df, aes(x = pm25_annual, y = asthma_rate, color = year)) +
+  geom_point(size = 3.5, alpha = 0.8) +
+  geom_smooth(method = "lm", se = TRUE, color = "darkred", linetype = "dashed") +
+  facet_wrap(~ borough, ncol = 2, scales = "free") +
+  scale_color_viridis_c(option = "cividis") +
+  labs(
+    title = "Association Between PM2.5 and Asthma ED Visits by Borough",
+    subtitle = "Each point represents a year; color indicates year (darker = more recent)",
+    x = expression("Annual PM2.5 ("*mu*"g/m³)"),
+    y = "Asthma ED Visit Rate (per 10,000)",
+    color = "Year",
+    caption = "Data Source: NYC Open Data & DOHMH"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold", size = 14),
+    strip.text = element_text(face = "bold", size = 11),
+    strip.background = element_rect(fill = "gray90", color = NA),
+    panel.grid.minor = element_blank()
+  )
+```
+
+## 4. Seasonal PM2.5 Comparison (Faceted)
+
+Compare summer vs winter PM2.5 levels across boroughs.
+
+```{r facet-seasonal, fig.height=8}
+ggplot(df_long %>% filter(pm25_type != "Annual"), 
+       aes(x = year, y = pm25_value, color = pm25_type)) +
+  geom_line(linewidth = 1.1) +
+  geom_point(size = 2) +
+  facet_wrap(~ borough, ncol = 2) +
+  scale_color_manual(values = c("Summer" = "#E69F00", "Winter" = "#56B4E9")) +
+  scale_x_continuous(breaks = seq(2009, 2023, 3)) +
+  labs(
+    title = "Seasonal PM2.5 Patterns by Borough",
+    subtitle = "Comparing summer and winter concentrations over time",
+    x = "Year",
+    y = expression("PM2.5 ("*mu*"g/m³)"),
+    color = "Season",
+    caption = "Data Source: NYC Open Data"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold", size = 14),
+    strip.text = element_text(face = "bold", size = 11),
+    strip.background = element_rect(fill = "gray90", color = NA),
+    legend.position = "bottom",
+    panel.grid.minor = element_blank()
+  )
+```
+
+## 5. Borough Comparison Summary (Side-by-Side)
+
+Direct comparison of all boroughs on the same plot.
+
+```{r comparison-summary, fig.height=6}
+p1 <- ggplot(df, aes(x = year, y = pm25_annual, color = borough)) +
+  geom_line(linewidth = 1) +
+  geom_point(size = 2) +
+  scale_color_viridis_d(option = "plasma") +
+  scale_x_continuous(breaks = seq(2009, 2023, 2)) +
+  labs(
+    title = "PM2.5 Concentration",
+    x = "Year",
+    y = expression("PM2.5 ("*mu*"g/m³)"),
+    color = "Borough"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+
+p2 <- ggplot(df, aes(x = year, y = asthma_rate, color = borough)) +
+  geom_line(linewidth = 1) +
+  geom_point(size = 2) +
+  scale_color_viridis_d(option = "plasma") +
+  scale_x_continuous(breaks = seq(2009, 2023, 2)) +
+  labs(
+    title = "Asthma ED Visit Rate",
+    x = "Year",
+    y = "Rate (per 10,000)",
+    color = "Borough"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+
+p1 + p2 + plot_layout(guides = "collect") & theme(legend.position = "bottom")
+```
+
+---
+
+# Heatmaps (Year × Borough) {.tabset}
+
+Since the data is annual (not monthly), we'll create year × borough heatmaps to visualize patterns.
+
+## 1. PM2.5 Annual Concentration Heatmap
+
+```{r heatmap-pm25-annual, fig.height=7, fig.width=9}
+ggplot(df, aes(x = year, y = borough, fill = pm25_annual)) +
+  geom_tile(color = "white", linewidth = 0.5) +
+  geom_text(aes(label = round(pm25_annual, 1)), color = "white", size = 3.5, fontface = "bold") +
+  scale_fill_viridis_c(option = "magma", direction = -1,
+                       name = expression("PM2.5 ("*mu*"g/m³)")) +
+  scale_x_continuous(breaks = 2009:2023, expand = c(0, 0)) +
+  scale_y_discrete(expand = c(0, 0)) +
+  labs(
+    title = "Annual PM2.5 Concentration Heatmap by Borough (2009-2023)",
+    subtitle = "Darker colors indicate higher pollution; all boroughs show improvement over time",
+    x = "Year",
+    y = "Borough",
+    caption = "Data Source: NYC Open Data"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold", size = 14),
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    panel.grid = element_blank(),
+    legend.position = "right"
+  )
+```
+
+## 2. Asthma ED Visit Rate Heatmap
+
+```{r heatmap-asthma, fig.height=7, fig.width=9}
+ggplot(df, aes(x = year, y = borough, fill = asthma_rate)) +
+  geom_tile(color = "white", linewidth = 0.5) +
+  geom_text(aes(label = round(asthma_rate, 0)), color = "white", size = 3.5, fontface = "bold") +
+  scale_fill_viridis_c(option = "inferno", direction = -1,
+                       name = "Asthma ED Rate\n(per 10,000)") +
+  scale_x_continuous(breaks = 2009:2023, expand = c(0, 0)) +
+  scale_y_discrete(expand = c(0, 0)) +
+  labs(
+    title = "Asthma ED Visit Rate Heatmap by Borough (2009-2023)",
+    subtitle = "The Bronx consistently shows the highest rates across all years",
+    x = "Year",
+    y = "Borough",
+    caption = "Data Source: NYC DOHMH"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold", size = 14),
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    panel.grid = element_blank(),
+    legend.position = "right"
+  )
+```
+
+## 3. Summer PM2.5 Heatmap
+
+```{r heatmap-summer, fig.height=7, fig.width=9}
+ggplot(df, aes(x = year, y = borough, fill = pm25_summer)) +
+  geom_tile(color = "white", linewidth = 0.5) +
+  geom_text(aes(label = round(pm25_summer, 1)), color = "white", size = 3.5, fontface = "bold") +
+  scale_fill_gradient(low = "#FFF7BC", high = "#D95F0E",
+                      name = expression("PM2.5 ("*mu*"g/m³)")) +
+  scale_x_continuous(breaks = 2009:2023, expand = c(0, 0)) +
+  scale_y_discrete(expand = c(0, 0)) +
+  labs(
+    title = "Summer PM2.5 Concentration Heatmap by Borough (2009-2023)",
+    x = "Year",
+    y = "Borough",
+    caption = "Data Source: NYC Open Data"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold", size = 14),
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    panel.grid = element_blank()
+  )
+```
+
+## 4. Winter PM2.5 Heatmap
+
+```{r heatmap-winter, fig.height=7, fig.width=9}
+ggplot(df, aes(x = year, y = borough, fill = pm25_winter)) +
+  geom_tile(color = "white", linewidth = 0.5) +
+  geom_text(aes(label = round(pm25_winter, 1)), color = "white", size = 3.5, fontface = "bold") +
+  scale_fill_gradient(low = "#EFF3FF", high = "#2171B5",
+                      name = expression("PM2.5 ("*mu*"g/m³)")) +
+  scale_x_continuous(breaks = 2009:2023, expand = c(0, 0)) +
+  scale_y_discrete(expand = c(0, 0)) +
+  labs(
+    title = "Winter PM2.5 Concentration Heatmap by Borough (2009-2023)",
+    x = "Year",
+    y = "Borough",
+    caption = "Data Source: NYC Open Data"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold", size = 14),
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    panel.grid = element_blank()
+  )
+```
+
+## 5. Seasonal Difference Heatmap (Winter - Summer)
+
+This shows which borough-years had higher winter vs summer pollution.
+
+```{r heatmap-diff, fig.height=7, fig.width=9}
+df <- df %>%
+  mutate(pm25_diff = pm25_winter - pm25_summer)
+
+ggplot(df, aes(x = year, y = borough, fill = pm25_diff)) +
+  geom_tile(color = "white", linewidth = 0.5) +
+  geom_text(aes(label = round(pm25_diff, 1)), 
+            color = ifelse(abs(df$pm25_diff) > 2, "white", "black"), 
+            size = 3.5, fontface = "bold") +
+  scale_fill_gradient2(low = "#E69F00", mid = "white", high = "#56B4E9",
+                       midpoint = 0, 
+                       name = "Difference\n(Winter - Summer)") +
+  scale_x_continuous(breaks = 2009:2023, expand = c(0, 0)) +
+  scale_y_discrete(expand = c(0, 0)) +
+  labs(
+    title = "Seasonal PM2.5 Difference Heatmap (Winter minus Summer)",
+    subtitle = "Blue = Higher winter pollution | Orange = Higher summer pollution",
+    x = "Year",
+    y = "Borough",
+    caption = "Data Source: NYC Open Data"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold", size = 14),
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    panel.grid = element_blank()
+  )
+```
+
+---
+
+# Key Findings
+
+## Borough Disparities
+
+```{r summary-stats}
+# Calculate summary statistics by borough
+borough_summary <- df %>%
+  group_by(borough) %>%
+  summarise(
+    mean_pm25 = mean(pm25_annual, na.rm = TRUE),
+    mean_asthma = mean(asthma_rate, na.rm = TRUE),
+    pm25_2023 = pm25_annual[year == 2023],
+    asthma_2023 = asthma_rate[year == 2023],
+    pm25_change = pm25_annual[year == 2023] - pm25_annual[year == 2009],
+    asthma_change = asthma_rate[year == 2023] - asthma_rate[year == 2009]
+  ) %>%
+  arrange(desc(mean_asthma))
+
+knitr::kable(borough_summary, 
+             digits = 1,
+             col.names = c("Borough", "Avg PM2.5", "Avg Asthma Rate", 
+                          "PM2.5 (2023)", "Asthma (2023)", 
+                          "PM2.5 Change", "Asthma Change"),
+             caption = "Borough Summary Statistics (2009-2023)")
+```
+
+1. **Bronx Health Disparity**: The Bronx consistently shows the highest asthma ED visit rates across all years, roughly 2-4 times higher than other boroughs.
+
+2. **Air Quality Improvement**: All boroughs have experienced substantial reductions in PM2.5 concentrations since 2009, with Manhattan showing the largest absolute decrease.
+
+3. **Positive Correlation**: Higher PM2.5 levels are generally associated with higher asthma ED visit rates, though borough-specific factors also play important roles.
+
+4. **Seasonal Variation**: Winter PM2.5 levels were historically higher than summer, but this pattern has shifted in recent years.
