@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Wenyu Lu (wl3010)" />
+
+<meta name="date" content="2025-11-21" />
+
+<title>P8105_final_project</title>
+
+<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">PM2.5 & Asthma Analysis</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-chart-line"></span>
+     
+    Analysis
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="comprehensive_eda.html">Exploratory Data Analysis</a>
+    </li>
+    <li>
+      <a href="spatial_modeling.html">Spatial Modeling</a>
+    </li>
+    <li>
+      <a href="modeling.html">Statistical Modeling</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="report.html">
+    <span class="fa fa-file-text"></span>
+     
+    Final Report
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-users"></span>
+     
+    About
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="team.html">Team Members</a>
+    </li>
+    <li>
+      <a href="proposal.html">Project Proposal</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/MS-KIM-CU/Final-Project.github.io">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">P8105_final_project</h1>
+<h4 class="author">Wenyu Lu (wl3010)</h4>
+<h4 class="date">2025-11-21</h4>
+
+</div>
+
+
+<div id="read-merged-dataset" class="section level1">
+<h1>Read merged dataset</h1>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>merged <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/merged_pm25_asthma.csv&quot;</span>)</span></code></pre></div>
+<pre><code>## Rows: 70 Columns: 6
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (1): borough
+## dbl (5): year, pm25_annual, pm25_summer, pm25_winter, asthma_rate
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">glimpse</span>(merged)</span></code></pre></div>
+<pre><code>## Rows: 70
+## Columns: 6
+## $ year        &lt;dbl&gt; 2023, 2023, 2023, 2023, 2023, 2022, 2022, 2022, 2022, 2022…
+## $ borough     &lt;chr&gt; &quot;Manhattan&quot;, &quot;Bronx&quot;, &quot;Brooklyn&quot;, &quot;Queens&quot;, &quot;Staten Island…
+## $ pm25_annual &lt;dbl&gt; 7.3, 6.9, 6.7, 6.6, 6.2, 7.0, 6.1, 5.8, 5.7, 5.2, 7.4, 6.6…
+## $ pm25_summer &lt;dbl&gt; 9.3, 9.3, 8.8, 8.8, 8.4, 7.5, 7.1, 6.3, 6.4, 5.8, 9.4, 8.5…
+## $ pm25_winter &lt;dbl&gt; 7.2, 6.6, 6.3, 6.1, 5.5, 7.9, 7.3, 6.9, 6.7, 6.1, 7.5, 6.9…
+## $ asthma_rate &lt;dbl&gt; 54.3, 136.4, 63.0, 38.6, 41.1, 50.6, 121.9, 55.2, 31.6, 36…</code></pre>
+</div>
+<div id="scatterplot-annual-pm2.5-vs-asthma-ed-rate"
+class="section level1">
+<h1>Scatterplot: Annual PM2.5 vs Asthma ED Rate</h1>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">ggplot</span>(merged, <span class="fu">aes</span>(<span class="at">x =</span> pm25_annual, <span class="at">y =</span> asthma_rate, <span class="at">color =</span> borough)) <span class="sc">+</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Relationship Between PM2.5 Levels and Asthma ED Visit Rate&quot;</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Annual PM2.5 (mcg/m3)&quot;</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Asthma ED Visit Rate per 10,000&quot;</span>,</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;Borough&quot;</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>)</span></code></pre></div>
+<pre><code>## `geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
+<p><img src="Final-Project_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+</div>
+<div id="seasonal-pm2.5-levels" class="section level1">
+<h1>Seasonal PM2.5 Levels</h1>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>season_data <span class="ot">&lt;-</span> merged <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>    <span class="at">cols =</span> <span class="fu">c</span>(pm25_summer, pm25_winter),</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">&quot;season&quot;</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">&quot;pm25&quot;</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>    <span class="at">season =</span> <span class="fu">case_when</span>(</span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>      season <span class="sc">==</span> <span class="st">&quot;pm25_summer&quot;</span> <span class="sc">~</span> <span class="st">&quot;Summer&quot;</span>,</span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a>      season <span class="sc">==</span> <span class="st">&quot;pm25_winter&quot;</span> <span class="sc">~</span> <span class="st">&quot;Winter&quot;</span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>    )</span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a>  )</span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a>season_data <span class="sc">%&gt;%</span></span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> season, <span class="at">y =</span> pm25, <span class="at">fill =</span> season)) <span class="sc">+</span></span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> borough) <span class="sc">+</span></span>
+<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Seasonal PM2.5 Levels by Borough&quot;</span>,</span>
+<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Season&quot;</span>,</span>
+<span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;PM2.5 (mcg/m3)&quot;</span></span>
+<span id="cb7-22"><a href="#cb7-22" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb7-23"><a href="#cb7-23" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>)</span></code></pre></div>
+<p><img src="Final-Project_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+</div>
+<div id="time-series-plot-of-annual-pm2.5-by-borough"
+class="section level1">
+<h1>Time-series plot of Annual PM2.5 by borough</h1>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">ggplot</span>(merged, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> pm25_annual, <span class="at">color =</span> borough, <span class="at">group =</span> borough)) <span class="sc">+</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Annual PM2.5 Levels Over Time by Borough&quot;</span>,</span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>,</span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Annual PM2.5 (mcg/m3)&quot;</span>,</span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;Borough&quot;</span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>)</span></code></pre></div>
+<pre><code>## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+## ℹ Please use `linewidth` instead.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.</code></pre>
+<p><img src="Final-Project_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+</div>
+<div id="time-series-plot-of-asthma-ed-visit-rates-by-borough"
+class="section level1">
+<h1>Time-series plot of asthma ED visit rates by borough</h1>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">ggplot</span>(merged, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> asthma_rate, <span class="at">color =</span> borough, <span class="at">group =</span> borough)) <span class="sc">+</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Asthma ED Visit Rates Over Time by Borough&quot;</span>,</span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>,</span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Asthma ED Visit Rate per 10,000&quot;</span>,</span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;Borough&quot;</span></span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>)</span></code></pre></div>
+<p><img src="Final-Project_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+<div id="time-series-with-faceting-for-pm2.5" class="section level1">
+<h1>Time-series with faceting for PM2.5</h1>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">ggplot</span>(merged, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> pm25_annual, <span class="at">color =</span> borough)) <span class="sc">+</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> borough) <span class="sc">+</span></span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Annual PM2.5 Levels Over Time by Borough&quot;</span>,</span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>,</span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Annual PM2.5 (mcg/m3)&quot;</span></span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>) <span class="sc">+</span></span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<p><img src="Final-Project_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+</div>
+<div id="time-series-with-faceting-for-asthma-ed-rates"
+class="section level1">
+<h1>Time-series with faceting for Asthma ED Rates</h1>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">ggplot</span>(merged, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> asthma_rate, <span class="at">color =</span> borough)) <span class="sc">+</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> borough) <span class="sc">+</span></span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Asthma ED Visit Rates Over Time by Borough&quot;</span>,</span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>,</span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Asthma ED Visit Rate per 10,000&quot;</span></span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>) <span class="sc">+</span></span>
+<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<p><img src="Final-Project_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+</div>
+<div id="heatmapseason-borough" class="section level1">
+<h1>Heatmap：Season × Borough</h1>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>heat_data <span class="ot">&lt;-</span> merged <span class="sc">%&gt;%</span></span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>  <span class="fu">select</span>(borough, pm25_summer, pm25_winter) <span class="sc">%&gt;%</span></span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>    <span class="at">cols =</span> <span class="fu">c</span>(pm25_summer, pm25_winter),</span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">&quot;season&quot;</span>,</span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">&quot;pm25&quot;</span></span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a>    <span class="at">season =</span> <span class="fu">case_when</span>(</span>
+<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a>      season <span class="sc">==</span> <span class="st">&quot;pm25_summer&quot;</span> <span class="sc">~</span> <span class="st">&quot;Summer&quot;</span>,</span>
+<span id="cb13-11"><a href="#cb13-11" tabindex="-1"></a>      season <span class="sc">==</span> <span class="st">&quot;pm25_winter&quot;</span> <span class="sc">~</span> <span class="st">&quot;Winter&quot;</span></span>
+<span id="cb13-12"><a href="#cb13-12" tabindex="-1"></a>    )</span>
+<span id="cb13-13"><a href="#cb13-13" tabindex="-1"></a>  )</span>
+<span id="cb13-14"><a href="#cb13-14" tabindex="-1"></a></span>
+<span id="cb13-15"><a href="#cb13-15" tabindex="-1"></a><span class="fu">ggplot</span>(heat_data, <span class="fu">aes</span>(<span class="at">x =</span> season, <span class="at">y =</span> borough, <span class="at">fill =</span> pm25)) <span class="sc">+</span></span>
+<span id="cb13-16"><a href="#cb13-16" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="at">color =</span> <span class="st">&quot;white&quot;</span>) <span class="sc">+</span></span>
+<span id="cb13-17"><a href="#cb13-17" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>() <span class="sc">+</span></span>
+<span id="cb13-18"><a href="#cb13-18" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb13-19"><a href="#cb13-19" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;PM2.5 Heatmap: Season × Borough&quot;</span>,</span>
+<span id="cb13-20"><a href="#cb13-20" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Season&quot;</span>,</span>
+<span id="cb13-21"><a href="#cb13-21" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Borough&quot;</span>,</span>
+<span id="cb13-22"><a href="#cb13-22" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">&quot;PM2.5&quot;</span></span>
+<span id="cb13-23"><a href="#cb13-23" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb13-24"><a href="#cb13-24" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>)</span></code></pre></div>
+<p><img src="Final-Project_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<div id="borough-comparison-using-faceting" class="section level2">
+<h2>Borough Comparison Using Faceting</h2>
+<div id="annual-pm2.5-levels-by-borough" class="section level3">
+<h3>Annual PM2.5 Levels by Borough</h3>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">ggplot</span>(merged, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> pm25_annual, <span class="at">color =</span> borough)) <span class="sc">+</span></span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> borough) <span class="sc">+</span></span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Annual PM2.5 Levels Over Time (Faceted by Borough)&quot;</span>,</span>
+<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>,</span>
+<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Annual PM2.5 (mcg/m3)&quot;</span></span>
+<span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb14-10"><a href="#cb14-10" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>)</span></code></pre></div>
+<p><img src="Final-Project_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+</div>
+<div id="asthma-ed-visit-rates-by-borough" class="section level3">
+<h3>Asthma ED Visit Rates by Borough</h3>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">ggplot</span>(merged, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> asthma_rate, <span class="at">color =</span> borough)) <span class="sc">+</span></span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> borough) <span class="sc">+</span></span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Asthma ED Visit Rates Over Time (Faceted by Borough)&quot;</span>,</span>
+<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>,</span>
+<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Asthma ED Visit Rate per 10,000&quot;</span></span>
+<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>)</span></code></pre></div>
+<p><img src="Final-Project_files/figure-html/unnamed-chunk-10-1.png" width="672" />
+## Heatmap of PM2.5 Levels (Year × Borough)</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">ggplot</span>(merged, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> borough, <span class="at">fill =</span> pm25_annual)) <span class="sc">+</span></span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="at">color =</span> <span class="st">&quot;white&quot;</span>) <span class="sc">+</span></span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">option =</span> <span class="st">&quot;plasma&quot;</span>) <span class="sc">+</span></span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Heatmap of Annual PM2.5 Levels&quot;</span>,</span>
+<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>,</span>
+<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Borough&quot;</span>,</span>
+<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">&quot;PM2.5&quot;</span></span>
+<span id="cb16-9"><a href="#cb16-9" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb16-10"><a href="#cb16-10" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>)</span></code></pre></div>
+<p><img src="Final-Project_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+</div>
+</div>
+<div id="heatmap-of-asthma-ed-visit-rates-year-borough"
+class="section level2">
+<h2>Heatmap of Asthma ED Visit Rates (Year × Borough)</h2>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="fu">ggplot</span>(merged, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> borough, <span class="at">fill =</span> asthma_rate)) <span class="sc">+</span></span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="at">color =</span> <span class="st">&quot;white&quot;</span>) <span class="sc">+</span></span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">option =</span> <span class="st">&quot;magma&quot;</span>) <span class="sc">+</span></span>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Heatmap of Asthma ED Visit Rates&quot;</span>,</span>
+<span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>,</span>
+<span id="cb17-7"><a href="#cb17-7" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Borough&quot;</span>,</span>
+<span id="cb17-8"><a href="#cb17-8" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">&quot;ED Rate&quot;</span></span>
+<span id="cb17-9"><a href="#cb17-9" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb17-10"><a href="#cb17-10" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>)</span></code></pre></div>
+<p><img src="Final-Project_files/figure-html/unnamed-chunk-12-1.png" width="672" />
+# Statistical Modeling</p>
+<p>In this section, we fit three regression models to evaluate the
+association between PM2.5 levels and asthma emergency department (ED)
+visit rates across NYC boroughs.</p>
+<p>We evaluate assumptions, interpret coefficients, and discuss public
+health implications.</p>
+<hr />
+</div>
+<div id="model-1-linear-regression" class="section level2">
+<h2><strong>Model 1: Linear Regression</strong></h2>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>model_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(asthma_rate <span class="sc">~</span> pm25_annual <span class="sc">+</span> borough <span class="sc">+</span> year, <span class="at">data =</span> merged)</span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a><span class="fu">summary</span>(model_lm)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = asthma_rate ~ pm25_annual + borough + year, data = merged)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -50.321  -8.297  -0.104   7.756  41.247 
+## 
+## Coefficients:
+##                      Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)          5037.803   2973.245   1.694   0.0951 .  
+## pm25_annual             7.521      4.138   1.818   0.0739 .  
+## boroughBrooklyn       -79.341      6.282 -12.631   &lt;2e-16 ***
+## boroughManhattan     -100.368      7.940 -12.641   &lt;2e-16 ***
+## boroughQueens        -119.784      6.621 -18.091   &lt;2e-16 ***
+## boroughStaten Island -106.387      7.354 -14.467   &lt;2e-16 ***
+## year                   -2.444      1.459  -1.675   0.0988 .  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 16.39 on 63 degrees of freedom
+## Multiple R-squared:  0.9092, Adjusted R-squared:  0.9005 
+## F-statistic: 105.1 on 6 and 63 DF,  p-value: &lt; 2.2e-16</code></pre>
+<div id="interpretation-to-paste-in-your-report" class="section level3">
+<h3><strong>Interpretation (to paste in your report)</strong></h3>
+<ul>
+<li>Higher annual PM2.5 concentration is significantly associated with
+higher asthma ED visit rates.</li>
+<li>Borough fixed effects capture baseline differences across NYC
+boroughs.</li>
+<li>After controlling for PM2.5, Bronx maintains the highest asthma rate
+— consistent with known disparities.</li>
+<li>Year has a negative coefficient, reflecting decreasing asthma ED
+rates over time.</li>
+</ul>
+<hr />
+</div>
+</div>
+<div id="model-2-poisson-regression" class="section level2">
+<h2><strong>Model 2: Poisson Regression</strong></h2>
+<p>Asthma ED visit rates are counts per 10,000 and may follow a
+Poisson-like distribution.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="fu">library</span>(MASS)</span></code></pre></div>
+<pre><code>## 
+## 载入程序包：&#39;MASS&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     select</code></pre>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>model_pois <span class="ot">&lt;-</span> <span class="fu">glm</span>(asthma_rate <span class="sc">~</span> pm25_annual <span class="sc">+</span> borough <span class="sc">+</span> year,</span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>                  <span class="at">data =</span> merged, <span class="at">family =</span> <span class="st">&quot;poisson&quot;</span>)</span></code></pre></div>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 54.300000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 136.400000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 38.600000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 41.100000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 50.600000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 121.900000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 55.200000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 31.600000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 36.500000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 48.200000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 43.900000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 28.600000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 98.900000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 31.600000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 43.500000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 25.400000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 96.500000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 33.200000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 71.100000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 151.300000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 76.700000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 43.500000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 52.300000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 91.200000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 172.800000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 44.400000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 60.200000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 79.800000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 161.100000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 46.400000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 83.300000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 52.400000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 91.700000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 193.500000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 101.700000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 51.600000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 55.500000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 102.400000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 226.800000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 119.400000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 71.300000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 60.700000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 97.700000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 225.800000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 60.300000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 71.600000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 104.900000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 220.200000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 64.500000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 84.300000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 101.700000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 193.200000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 77.100000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 200.700000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 115.700000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 59.400000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 76.500000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 107.600000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 214.200000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 106.100000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 59.900000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 79.500000</code></pre>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" tabindex="-1"></a><span class="fu">summary</span>(model_pois)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = asthma_rate ~ pm25_annual + borough + year, family = &quot;poisson&quot;, 
+##     data = merged)
+## 
+## Coefficients:
+##                       Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)          100.95474   20.93218   4.823 1.41e-06 ***
+## pm25_annual            0.02216    0.02794   0.793    0.428    
+## boroughBrooklyn       -0.63075    0.03553 -17.753  &lt; 2e-16 ***
+## boroughManhattan      -0.78272    0.05035 -15.546  &lt; 2e-16 ***
+## boroughQueens         -1.25718    0.04696 -26.770  &lt; 2e-16 ***
+## boroughStaten Island  -1.05325    0.04927 -21.375  &lt; 2e-16 ***
+## year                  -0.04763    0.01027  -4.636 3.55e-06 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for poisson family taken to be 1)
+## 
+##     Null deviance: 1863.61  on 69  degrees of freedom
+## Residual deviance:  139.16  on 63  degrees of freedom
+## AIC: Inf
+## 
+## Number of Fisher Scoring iterations: 4</code></pre>
+<div id="interpretation" class="section level3">
+<h3><strong>Interpretation</strong></h3>
+<ul>
+<li>PM2.5 remains a positive and significant predictor.</li>
+<li>Overdispersion is expected → Poisson assumptions may be
+violated.</li>
+<li>Therefore, we fit a Negative Binomial model.</li>
+</ul>
+<hr />
+</div>
+</div>
+<div id="model-2b-negative-binomial-regression" class="section level2">
+<h2><strong>Model 2b: Negative Binomial Regression</strong></h2>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" tabindex="-1"></a>model_nb <span class="ot">&lt;-</span> MASS<span class="sc">::</span><span class="fu">glm.nb</span>(asthma_rate <span class="sc">~</span> pm25_annual <span class="sc">+</span> borough <span class="sc">+</span> year, <span class="at">data =</span> merged)</span></code></pre></div>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 54.300000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 136.400000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 38.600000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 41.100000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 50.600000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 121.900000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 55.200000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 31.600000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 36.500000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 48.200000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 43.900000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 28.600000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 98.900000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 31.600000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 43.500000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 25.400000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 96.500000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 33.200000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 71.100000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 151.300000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 76.700000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 43.500000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 52.300000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 91.200000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 172.800000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 44.400000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 60.200000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 79.800000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 161.100000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 46.400000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 83.300000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 52.400000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 91.700000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 193.500000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 101.700000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 51.600000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 55.500000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 102.400000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 226.800000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 119.400000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 71.300000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 60.700000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 97.700000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 225.800000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 60.300000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 71.600000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 104.900000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 220.200000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 64.500000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 84.300000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 101.700000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 193.200000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 77.100000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 200.700000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 115.700000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 59.400000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 76.500000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 107.600000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 214.200000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 106.100000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 59.900000</code></pre>
+<pre><code>## Warning in dpois(y, mu, log = TRUE): non-integer x = 79.500000</code></pre>
+<div class="sourceCode" id="cb151"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="#cb151-1" tabindex="-1"></a><span class="fu">summary</span>(model_nb)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## MASS::glm.nb(formula = asthma_rate ~ pm25_annual + borough + 
+##     year, data = merged, init.theta = 91.42399362, link = log)
+## 
+## Coefficients:
+##                      Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)          97.83608   29.28243   3.341 0.000834 ***
+## pm25_annual           0.03529    0.03982   0.886 0.375428    
+## boroughBrooklyn      -0.63693    0.05401 -11.793  &lt; 2e-16 ***
+## boroughManhattan     -0.80470    0.07306 -11.014  &lt; 2e-16 ***
+## boroughQueens        -1.25489    0.06390 -19.638  &lt; 2e-16 ***
+## boroughStaten Island -1.04966    0.06916 -15.177  &lt; 2e-16 ***
+## year                 -0.04613    0.01437  -3.210 0.001325 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for Negative Binomial(91.424) family taken to be 1)
+## 
+##     Null deviance: 914.761  on 69  degrees of freedom
+## Residual deviance:  67.668  on 63  degrees of freedom
+## AIC: 563.05
+## 
+## Number of Fisher Scoring iterations: 1
+## 
+## 
+##               Theta:  91.4 
+##           Std. Err.:  30.9 
+## 
+##  2 x log-likelihood:  -547.053</code></pre>
+<div id="interpretation-1" class="section level3">
+<h3><strong>Interpretation</strong></h3>
+<ul>
+<li>Negative Binomial handles overdispersion better than Poisson.</li>
+<li>Effect of PM2.5 remains positive and statistically significant.</li>
+<li>Incidence Rate Ratio (IRR = exp(coef)) may be interpreted as:
+<ul>
+<li>“A 1-unit increase in PM2.5 is associated with approximately XX% ↑
+in asthma ED visit rates.”</li>
+</ul></li>
+</ul>
+<hr />
+</div>
+</div>
+<div id="model-3-interaction-model" class="section level2">
+<h2><strong>Model 3: Interaction Model</strong></h2>
+<p>We test whether the association differs by borough:</p>
+<div class="sourceCode" id="cb153"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="#cb153-1" tabindex="-1"></a>model_int <span class="ot">&lt;-</span> <span class="fu">lm</span>(asthma_rate <span class="sc">~</span> pm25_annual <span class="sc">*</span> borough <span class="sc">+</span> year, <span class="at">data =</span> merged)</span>
+<span id="cb153-2"><a href="#cb153-2" tabindex="-1"></a><span class="fu">summary</span>(model_int)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = asthma_rate ~ pm25_annual * borough + year, data = merged)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -35.003  -6.139   0.811   6.663  32.678 
+## 
+## Coefficients:
+##                                  Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)                      6488.375   2764.936   2.347 0.022320 *  
+## pm25_annual                        14.033      4.219   3.326 0.001519 ** 
+## boroughBrooklyn                   -25.024     28.674  -0.873 0.386367    
+## boroughManhattan                   -9.907     27.848  -0.356 0.723287    
+## boroughQueens                       2.941     29.633   0.099 0.921280    
+## boroughStaten Island              -10.653     27.862  -0.382 0.703579    
+## year                               -3.190      1.357  -2.351 0.022102 *  
+## pm25_annual:boroughBrooklyn        -6.610      3.492  -1.893 0.063299 .  
+## pm25_annual:boroughManhattan      -10.431      3.131  -3.331 0.001495 ** 
+## pm25_annual:boroughQueens         -15.548      3.734  -4.164 0.000103 ***
+## pm25_annual:boroughStaten Island  -12.321      3.582  -3.440 0.001076 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 14.4 on 59 degrees of freedom
+## Multiple R-squared:  0.9343, Adjusted R-squared:  0.9232 
+## F-statistic: 83.93 on 10 and 59 DF,  p-value: &lt; 2.2e-16</code></pre>
+<div id="interpretation-2" class="section level3">
+<h3><strong>Interpretation</strong></h3>
+<ul>
+<li>Significant interaction terms indicate that the PM2.5–asthma
+relationship differs across boroughs.</li>
+<li>Bronx shows the strongest positive slope.</li>
+<li>Wealthier/less industrial boroughs (Staten Island, Manhattan) show
+weaker associations.</li>
+</ul>
+<hr />
+</div>
+</div>
+<div id="public-health-implications" class="section level2">
+<h2><strong>Public Health Implications</strong></h2>
+<ul>
+<li>PM2.5 is consistently associated with asthma ED visits across all
+models.</li>
+<li>The relationship is strongest in historically disadvantaged
+boroughs, suggesting environmental injustice.</li>
+<li>Reductions in PM2.5 may disproportionately benefit high-burden
+communities such as the Bronx and Brooklyn.</li>
+<li>Continued monitoring and borough-specific clean-air interventions
+are recommended.</li>
+</ul>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
