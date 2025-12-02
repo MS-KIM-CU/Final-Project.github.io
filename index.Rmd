@@ -1,14 +1,11 @@
 ---
-title: "Air Pollution and Asthma Emergency Department Visits in NYC"
-author: "Minseo Brenda Kim"
-date: "2025-11-21"
-output: html_document
+title: "Air Pollution and Asthma Emergency Department Visits in New York City"
+subtitle: "A Time-Series and Neighborhood-Level Analysis"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
 ---
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
 
 <style>
 .hero-image {
@@ -81,13 +78,13 @@ Our analysis uses two publicly available datasets from NYC government sources:
 
 <div class="row">
 <div class="col-md-4 team-member">
-**Wenyu Lu**  
+**Minseo Kim (Brenda)**  
+</div>
+<div class="col-md-4 team-member">
+**Wenyu Lu (Bruce)**  
 </div>
 <div class="col-md-4 team-member">
 **Jiaqi Zhu**  
-</div>
-<div class="col-md-4 team-member">
-**Minseo Kim (Brenda)**  
 </div>
 </div>
 
