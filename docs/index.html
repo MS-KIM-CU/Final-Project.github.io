@@ -1,364 +1,602 @@
 <!DOCTYPE html>
-<html lang="en">
+
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Air Pollution & Asthma in NYC | Final Project</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #2563eb;
-            --primary-dark: #1d4ed8;
-            --accent: #7c3aed;
-            --dark: #1e293b;
-            --light: #f8fafc;
-        }
-        
-        * {
-            font-family: 'Inter', sans-serif;
-        }
-        
-        body {
-            background: var(--light);
-            color: var(--dark);
-        }
-        
-        .hero {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-            color: white;
-            padding: 80px 0;
-            margin-bottom: 40px;
-        }
-        
-        .hero h1 {
-            font-weight: 700;
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-        }
-        
-        .hero p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-        }
-        
-        .nav-custom {
-            background: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            padding: 15px 0;
-        }
-        
-        .nav-custom a {
-            color: var(--dark);
-            text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            transition: all 0.3s;
-            margin: 0 5px;
-        }
-        
-        .nav-custom a:hover, .nav-custom a.active {
-            background: var(--primary);
-            color: white;
-        }
-        
-        .card-custom {
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            padding: 30px;
-            margin-bottom: 30px;
-            border: none;
-            transition: transform 0.3s;
-        }
-        
-        .card-custom:hover {
-            transform: translateY(-5px);
-        }
-        
-        .stat-card {
-            text-align: center;
-            padding: 25px;
-        }
-        
-        .stat-value {
-            font-size: 3rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .stat-label {
-            color: #64748b;
-            font-size: 0.9rem;
-            margin-top: 10px;
-        }
-        
-        .section-title {
-            font-weight: 600;
-            color: var(--dark);
-            margin-bottom: 30px;
-            padding-bottom: 15px;
-            border-bottom: 3px solid var(--primary);
-            display: inline-block;
-        }
-        
-        .team-member {
-            text-align: center;
-            padding: 20px;
-        }
-        
-        .team-member .avatar {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 15px;
-            font-size: 2rem;
-            color: white;
-        }
-        
-        .btn-primary-custom {
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            border: none;
-            padding: 12px 30px;
-            border-radius: 8px;
-            color: white;
-            font-weight: 500;
-            transition: all 0.3s;
-        }
-        
-        .btn-primary-custom:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 20px rgba(37, 99, 235, 0.4);
-        }
-        
-        .analysis-link {
-            display: block;
-            padding: 20px;
-            background: white;
-            border-radius: 12px;
-            text-decoration: none;
-            color: var(--dark);
-            border: 2px solid #e2e8f0;
-            transition: all 0.3s;
-            margin-bottom: 15px;
-        }
-        
-        .analysis-link:hover {
-            border-color: var(--primary);
-            background: #f0f9ff;
-        }
-        
-        .analysis-link h5 {
-            margin: 0;
-            color: var(--primary);
-        }
-        
-        .analysis-link p {
-            margin: 5px 0 0;
-            color: #64748b;
-            font-size: 0.9rem;
-        }
-        
-        footer {
-            background: var(--dark);
-            color: white;
-            padding: 40px 0;
-            margin-top: 60px;
-        }
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Air Pollution and Asthma Emergency Department Visits in New York City</title>
+
+<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
     </style>
+
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
 </head>
+
 <body>
-    <!-- Navigation -->
-    <nav class="nav-custom">
-        <div class="container">
-            <div class="d-flex justify-content-center flex-wrap">
-                <a href="index.html" class="active">Home</a>
-                <a href="brenda_analysis.html">Borough Analysis</a>
-                <a href="time_series.html">Time Series</a>
-                <a href="scatterplots.html">Scatterplots</a>
-                <a href="modeling.html">Modeling</a>
-                <a href="report.html">Report</a>
-            </div>
-        </div>
-    </nav>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container text-center">
-            <h1>Air Pollution and Asthma Emergency Department Visits in New York City</h1>
-            <p>A Time-Series and Neighborhood-Level Analysis</p>
-            <p class="mt-3"><em>P8105 Data Science I | Final Project</em></p>
-        </div>
-    </section>
 
-    <!-- Main Content -->
-    <div class="container">
-        <!-- Key Stats -->
-        <div class="row">
-            <div class="col-md-3">
-                <div class="card-custom stat-card">
-                    <div class="stat-value">14</div>
-                    <div class="stat-label">Years of Data (2009-2023)</div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card-custom stat-card">
-                    <div class="stat-value">5</div>
-                    <div class="stat-label">NYC Boroughs</div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card-custom stat-card">
-                    <div class="stat-value">-42%</div>
-                    <div class="stat-label">PM2.5 Reduction</div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card-custom stat-card">
-                    <div class="stat-value">2-4x</div>
-                    <div class="stat-label">Bronx Disparity</div>
-                </div>
-            </div>
-        </div>
+<div class="container-fluid main-container">
 
-        <!-- Project Overview -->
-        <div class="row mt-5">
-            <div class="col-lg-8">
-                <h2 class="section-title">Project Overview</h2>
-                <div class="card-custom">
-                    <p>Air pollution is a major public health concern in urban environments, and New York City consistently reports high rates of respiratory illnesses, particularly asthma. Fine particulate matter (PM2.5) is known to trigger asthma symptoms and increase emergency department (ED) visits.</p>
-                    <p>This project explores how PM2.5 levels vary across time and NYC boroughs, and whether increases in pollution are associated with higher asthma ED visit rates.</p>
-                    
-                    <h5 class="mt-4">Research Questions</h5>
-                    <ol>
-                        <li><strong>Temporal Trends:</strong> How have PM2.5 levels and asthma ED visit rates changed over time in NYC (2009–2023)?</li>
-                        <li><strong>Geographic Disparities:</strong> Do boroughs differ in both PM2.5 concentration and asthma ED visit rates?</li>
-                        <li><strong>Association Analysis:</strong> Is higher PM2.5 associated with higher asthma ED visit rates after adjusting for seasonality and borough?</li>
-                        <li><strong>Effect Modification:</strong> Does season modify the association between PM2.5 and asthma ED visits?</li>
-                    </ol>
-                </div>
-            </div>
-            
-            <div class="col-lg-4">
-                <h2 class="section-title">Explore Analysis</h2>
-                <a href="brenda_analysis.html" class="analysis-link">
-                    <h5>🗺️ Borough Comparison & Heatmaps</h5>
-                    <p>Faceted visualizations and heatmaps by Brenda</p>
-                </a>
-                <a href="time_series.html" class="analysis-link">
-                    <h5>📈 Time Series Analysis</h5>
-                    <p>Temporal trends by Jiaqi</p>
-                </a>
-                <a href="scatterplots.html" class="analysis-link">
-                    <h5>📊 Scatterplots & Seasonal</h5>
-                    <p>Association visualizations by Bruce</p>
-                </a>
-                <a href="modeling.html" class="analysis-link">
-                    <h5>🔬 Statistical Modeling</h5>
-                    <p>Regression analysis and results</p>
-                </a>
-            </div>
-        </div>
 
-        <!-- Data Sources -->
-        <div class="row mt-5">
-            <div class="col-12">
-                <h2 class="section-title">Data Sources</h2>
-            </div>
-            <div class="col-md-6">
-                <div class="card-custom">
-                    <h5>🌫️ Air Quality (PM2.5)</h5>
-                    <p><strong>Source:</strong> NYC Open Data</p>
-                    <p>Contains annual, summer, and winter PM2.5 concentrations by borough from 2009-2023.</p>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="card-custom">
-                    <h5>🏥 Asthma ED Visits</h5>
-                    <p><strong>Source:</strong> NYC DOHMH</p>
-                    <p>Borough-level asthma emergency department visit rates (per 10,000 residents).</p>
-                </div>
-            </div>
-        </div>
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
 
-        <!-- Key Findings -->
-        <div class="row mt-5">
-            <div class="col-12">
-                <h2 class="section-title">Key Findings</h2>
-            </div>
-            <div class="col-md-6">
-                <div class="card-custom">
-                    <h5>✅ Air Quality Improvements</h5>
-                    <p>All five NYC boroughs have experienced substantial reductions in PM2.5 concentrations since 2009. Manhattan showed the largest improvements, dropping from ~12.6 to ~7.3 µg/m³.</p>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="card-custom">
-                    <h5>⚠️ Health Disparities Persist</h5>
-                    <p>The Bronx consistently shows asthma ED rates 2-4x higher than other boroughs. While all boroughs improved, significant geographic disparities remain.</p>
-                </div>
-            </div>
-        </div>
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
-        <!-- Screencast -->
-        <div class="row mt-5">
-            <div class="col-12">
-                <h2 class="section-title">Screencast</h2>
-                <div class="card-custom text-center">
-                    <p><em>Video presentation summarizing our analysis</em></p>
-                    <!-- Replace YOUR_VIDEO_ID with actual YouTube video ID -->
-                    <div class="ratio ratio-16x9" style="max-width: 800px; margin: 0 auto;">
-                        <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" allowfullscreen></iframe>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <!-- Team -->
-        <div class="row mt-5">
-            <div class="col-12">
-                <h2 class="section-title">Team Members</h2>
-            </div>
-            <div class="col-md-4">
-                <div class="card-custom team-member">
-                    <div class="avatar">W</div>
-                    <h5>Wenyu Lu</h5>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card-custom team-member">
-                    <div class="avatar">J</div>
-                    <h5>Jiaqi Zhu</h5>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card-custom team-member">
-                    <div class="avatar">M</div>
-                    <h5>Minseo Kim (Brenda)</h5>
-                </div>
-            </div>
-        </div>
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">PM2.5 & Asthma Analysis</a>
     </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="comprehensive_eda.html">Exploratory Analysis</a>
+</li>
+<li>
+  <a href="modeling.html">Statistical Modeling</a>
+</li>
+<li>
+  <a href="report.html">Final Report</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Team
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="team.html">About Us</a>
+    </li>
+    <li>
+      <a href="proposal.html">Project Proposal</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/MS-KIM-CU/Final-Project.github.io">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
 
-    <!-- Footer -->
-    <footer>
-        <div class="container text-center">
-            <p>P8105 Data Science I | Columbia University Mailman School of Public Health</p>
-            <p class="mt-2">
-                <a href="https://github.com/MS-KIM-CU/Final-Project.github.io" style="color: white;">
-                    📁 View on GitHub
-                </a>
-            </p>
-        </div>
-    </footer>
+<div id="header">
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Air Pollution and Asthma Emergency
+Department Visits in New York City</h1>
+<h3 class="subtitle">A Time-Series and Neighborhood-Level Analysis</h3>
+
+</div>
+
+
+<style>
+.hero-image {
+  background-color: #2c3e50;
+  color: white;
+  padding: 40px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+}
+.team-member {
+  text-align: center;
+  padding: 15px;
+}
+</style>
+<div class="hero-image">
+<h2>
+Exploring the Relationship Between Air Quality and Respiratory Health in
+NYC
+</h2>
+<p>
+<em>Final Project for P8105 Data Science I</em>
+</p>
+</div>
+<div id="project-overview" class="section level2">
+<h2>Project Overview</h2>
+<p>Air pollution is a major public health concern in urban environments,
+and New York City consistently reports high rates of respiratory
+illnesses, particularly asthma. Fine particulate matter (PM2.5) is known
+to trigger asthma symptoms and increase emergency department (ED)
+visits.</p>
+<p>This project explores how PM2.5 levels vary across time and NYC
+boroughs, and whether increases in pollution are associated with higher
+asthma ED visit rates.</p>
+</div>
+<div id="research-questions" class="section level2">
+<h2>Research Questions</h2>
+<ol style="list-style-type: decimal">
+<li><p><strong>Temporal Trends</strong>: How have PM2.5 levels and
+asthma ED visit rates changed over time in NYC (2009–2023)?</p></li>
+<li><p><strong>Geographic Disparities</strong>: Do boroughs differ in
+both PM2.5 concentration and asthma ED visit rates?</p></li>
+<li><p><strong>Association Analysis</strong>: Is higher PM2.5 associated
+with higher asthma ED visit rates after adjusting for seasonality and
+borough?</p></li>
+<li><p><strong>Effect Modification</strong>: Does season modify the
+association between PM2.5 and asthma ED visits?</p></li>
+</ol>
+</div>
+<div id="data-sources" class="section level2">
+<h2>Data Sources</h2>
+<p>Our analysis uses two publicly available datasets from NYC government
+sources:</p>
+<table>
+<colgroup>
+<col width="30%" />
+<col width="26%" />
+<col width="43%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Dataset</th>
+<th>Source</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Air Quality (PM2.5)</td>
+<td><a href="https://opendata.cityofnewyork.us/">NYC Open Data</a></td>
+<td>Daily/monthly PM2.5 concentrations by borough</td>
+</tr>
+<tr class="even">
+<td>Asthma ED Visits</td>
+<td><a href="https://a816-dohbesp.nyc.gov/IndicatorPublic/">NYC
+DOHMH</a></td>
+<td>Borough-level asthma ED visit rates</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="key-findings-preview" class="section level2">
+<h2>Key Findings Preview</h2>
+<div class="row">
+<div class="col-md-6">
+<p><strong>Air Quality Improvements</strong></p>
+<ul>
+<li>All five NYC boroughs have experienced substantial reductions in
+PM2.5 concentrations since 2009</li>
+<li>Manhattan showed the largest improvements, dropping from ~12.6 to
+~7.3 µg/m³</li>
+</ul>
+</div>
+<div class="col-md-6">
+<p><strong>Health Disparities Persist</strong></p>
+<ul>
+<li>The Bronx consistently shows asthma ED rates 2-4x higher than other
+boroughs</li>
+<li>A positive correlation exists between PM2.5 levels and asthma ED
+visits</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="screencast" class="section level2">
+<h2>Screencast</h2>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/YOUR_VIDEO_ID" frameborder="0" allowfullscreen>
+</iframe>
+<p><em>Replace with your actual screencast link</em></p>
+</div>
+<div id="team-members" class="section level2">
+<h2>Team Members</h2>
+<div class="row">
+<div class="col-md-4 team-member">
+<p><strong>Minseo Kim (Brenda)</strong></p>
+</div>
+<div class="col-md-4 team-member">
+<p><strong>Wenyu Lu (Bruce)</strong></p>
+</div>
+<div class="col-md-4 team-member">
+<p><strong>Jiaqi Zhu</strong></p>
+</div>
+</div>
+<hr />
+</div>
+<div id="explore-our-analysis" class="section level2">
+<h2>Explore Our Analysis</h2>
+<p>Navigate using the menu above to explore:</p>
+<ul>
+<li><strong>Time Series Analysis</strong> - Trends over time
+(Jiaqi)</li>
+<li><strong>Scatterplots &amp; Seasonal Trends</strong> - Association
+visualizations (Bruce)<br />
+</li>
+<li><strong>Borough Comparison &amp; Heatmaps</strong> - Geographic
+disparities (Brenda)</li>
+<li><strong>Statistical Modeling</strong> - Regression results</li>
+<li><strong>Full Report</strong> - Complete analysis and
+conclusions</li>
+</ul>
+<hr />
+<p style="text-align: center; color: gray; font-size: 12px;">
+P8105 Fall 2024 | Columbia University Mailman School of Public Health
+</p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
 </body>
 </html>
