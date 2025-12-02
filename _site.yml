@@ -4,21 +4,29 @@ navbar:
   title: "PM2.5 & Asthma Analysis"
   left:
     - text: "Home"
+      icon: fa-home
       href: index.html
-    - text: "Exploratory Analysis"
-      href: comprehensive_eda.html
-    - text: "Statistical Modeling"
-      href: modeling.html
-    - text: "Final Report"
-      href: report.html
-    - text: "Team"
+    - text: "Analysis"
+      icon: fa-chart-line
       menu:
-        - text: "About Us"
+        - text: "Exploratory Data Analysis"
+          href: comprehensive_eda.html
+        - text: "Spatial Modeling"
+          href: spatial_modeling.html
+        - text: "Statistical Modeling"
+          href: modeling.html
+    - text: "Final Report"
+      icon: fa-file-text
+      href: report.html
+    - text: "About"
+      icon: fa-users
+      menu:
+        - text: "Team Members"
           href: team.html
         - text: "Project Proposal"
           href: proposal.html
   right:
-    - icon: fa-github
+    - icon: fa-github fa-lg
       href: https://github.com/MS-KIM-CU/Final-Project.github.io
 output:
   html_document:
@@ -30,3 +38,4 @@ output:
       smooth_scroll: true
     code_folding: hide
     df_print: paged
+    css: styles.css
