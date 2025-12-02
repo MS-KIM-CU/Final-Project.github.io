@@ -1,0 +1,538 @@
+---
+title: "Spatial Modeling"
+subtitle: "Enhanced Geographic Analysis Using Official NYC Boundaries"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 3
+    theme: cosmo
+    code_folding: hide
+---
+
+<style>
+.hero-spatial {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 40px;
+  border-radius: 15px;
+  margin: 30px 0;
+  text-align: center;
+}
+
+.map-section {
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  margin: 25px 0;
+}
+
+.spatial-insight {
+  background: linear-gradient(to right, #f0f9ff, #e0f2fe);
+  border-left: 5px solid #2563eb;
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: 8px;
+}
+
+.warning-box {
+  background: #fef3c7;
+  border-left: 5px solid #f59e0b;
+  padding: 15px;
+  margin: 15px 0;
+  border-radius: 5px;
+}
+
+.leaflet-container {
+  height: 600px !important;
+}
+</style>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  message = FALSE,
+  warning = FALSE,
+  fig.width = 12,
+  fig.height = 8
+)
+
+# Load packages
+library(tidyverse)
+library(sf)
+library(leaflet)
+library(leaflet.extras)
+library(viridis)
+library(plotly)
+library(RColorBrewer)
+library(DT)
+library(tigris)  # For downloading Census shapefiles
+```
+
+<div class="hero-spatial">
+<h1>🗽 NYC Spatial Analysis with Real Boundaries</h1>
+<p style="font-size: 1.2rem;">Using Official NYC Borough Shapefiles for Accurate Geographic Visualization</p>
+</div>
+
+---
+
+```{r, include=FALSE}
+# Load your PM2.5 and asthma data
+pm25_asthma <- read_csv("data/merged_pm25_asthma.csv") %>%
+  mutate(
+    borough = factor(borough, 
+                     levels = c("Manhattan", "Bronx", "Brooklyn", 
+                                "Queens", "Staten Island"))
+  )
+```
+
+## Use tigris Package (Automated) to download Census boundaries
+
+```{r eval=FALSE}
+# Set tigris options
+options(tigris_use_cache = TRUE)
+
+# Get New York State counties
+ny_counties <- counties(state = "NY", cb = TRUE, year = 2023)
+
+# NYC is made up of these 5 counties:
+nyc_county_names <- c("New York", "Kings", "Queens", "Bronx", "Richmond")
+
+# Filter for NYC counties
+nyc_boroughs_tiger <- ny_counties %>%
+  filter(NAME %in% nyc_county_names)
+
+# Map county names to borough names
+nyc_boroughs <- nyc_boroughs_tiger %>%
+  mutate(
+    borough = case_when(
+      NAME == "New York" ~ "Manhattan",
+      NAME == "Kings" ~ "Brooklyn",
+      NAME == "Queens" ~ "Queens",
+      NAME == "Bronx" ~ "Bronx",
+      NAME == "Richmond" ~ "Staten Island"
+    ),
+    borough = factor(borough, 
+                     levels = c("Manhattan", "Bronx", "Brooklyn", 
+                                "Queens", "Staten Island"))
+  ) %>%
+  select(borough, NAME, geometry)
+
+# Check the shapefile
+glimpse(nyc_boroughs)
+```
+
+```{r show-shapefile-structure}
+# Display shapefile information
+cat("CRS (Coordinate Reference System):\n")
+st_crs(nyc_boroughs)
+
+cat("\nBoroughs in shapefile:\n")
+nyc_boroughs %>% 
+  st_drop_geometry() %>%
+  select(borough) %>%
+  knitr::kable()
+```
+
+## Merge with Your Data
+
+```{r merge-spatial-data}
+# For 2023 data
+spatial_data_2023 <- pm25_asthma %>%
+  filter(year == 2023) %>%
+  right_join(nyc_boroughs, by = "borough") %>%
+  st_as_sf()
+
+# For all years
+spatial_data_full <- pm25_asthma %>%
+  right_join(nyc_boroughs, by = "borough") %>%
+  st_as_sf()
+
+# Verify the merge
+cat("Data merged successfully\n")
+cat("Number of features:", nrow(spatial_data_2023), "\n")
+cat("Columns:", paste(names(spatial_data_2023), collapse = ", "))
+```
+
+---
+
+# Interactive Choropleth Maps {.tabset .tabset-pills}
+
+## PM2.5 Choropleth (2023)
+
+<div class="map-section">
+
+```{r choropleth-pm25-2023, fig.height=7}
+# Create color palette
+pal_pm25 <- colorNumeric(
+  palette = "YlOrRd",
+  domain = spatial_data_2023$pm25_annual,
+  na.color = "transparent"
+)
+
+# Create choropleth map
+leaflet(spatial_data_2023) %>%
+  addProviderTiles(providers$CartoDB.Positron) %>%
+  addPolygons(
+    fillColor = ~pal_pm25(pm25_annual),
+    weight = 2,
+    opacity = 1,
+    color = "white",
+    dashArray = "3",
+    fillOpacity = 0.7,
+    highlightOptions = highlightOptions(
+      weight = 3,
+      color = "#666",
+      dashArray = "",
+      fillOpacity = 0.9,
+      bringToFront = TRUE
+    ),
+    label = ~paste0(
+      "<strong>", borough, "</strong><br/>",
+      "PM2.5: ", round(pm25_annual, 1), " μg/m³<br/>",
+      "Summer: ", round(pm25_summer, 1), " μg/m³<br/>",
+      "Winter: ", round(pm25_winter, 1), " μg/m³"
+    ) %>% lapply(htmltools::HTML),
+    popup = ~paste0(
+      "<div style='font-size: 14px;'>",
+      "<h4 style='color: #2563eb; margin-bottom: 10px;'>", borough, "</h4>",
+      "<strong>Annual PM2.5:</strong> ", round(pm25_annual, 1), " μg/m³<br/>",
+      "<strong>Summer PM2.5:</strong> ", round(pm25_summer, 1), " μg/m³<br/>",
+      "<strong>Winter PM2.5:</strong> ", round(pm25_winter, 1), " μg/m³<br/>",
+      "<strong>Asthma Rate:</strong> ", round(asthma_rate, 1), " per 10,000",
+      "</div>"
+    ) %>% lapply(htmltools::HTML),
+    labelOptions = labelOptions(
+      style = list("font-weight" = "normal", padding = "3px 8px"),
+      textsize = "13px",
+      direction = "auto"
+    )
+  ) %>%
+  addLegend(
+    position = "bottomright",
+    pal = pal_pm25,
+    values = ~pm25_annual,
+    title = "PM2.5 (μg/m³)",
+    opacity = 0.7
+  ) %>%
+  addScaleBar(position = "bottomleft") %>%
+  setView(lng = -73.935242, lat = 40.730610, zoom = 10)
+```
+
+</div>
+
+<div class="spatial-insight">
+<h4>🗺️ Choropleth Map Advantages</h4>
+**Real boundaries** show the actual geographic extent of each borough, unlike point markers. You can now see:
+- Relative size of each borough
+- Actual shapes and boundaries
+- Continuous color fill representing pollution levels
+- Hover over any area for details
+</div>
+
+## Asthma Rate Choropleth (2023)
+
+<div class="map-section">
+
+```{r choropleth-asthma-2023, fig.height=7}
+# Create color palette
+pal_asthma <- colorNumeric(
+  palette = "Reds",
+  domain = spatial_data_2023$asthma_rate,
+  na.color = "transparent"
+)
+
+leaflet(spatial_data_2023) %>%
+  addProviderTiles(providers$CartoDB.Positron) %>%
+  addPolygons(
+    fillColor = ~pal_asthma(asthma_rate),
+    weight = 2,
+    opacity = 1,
+    color = "white",
+    dashArray = "3",
+    fillOpacity = 0.7,
+    highlightOptions = highlightOptions(
+      weight = 3,
+      color = "#666",
+      dashArray = "",
+      fillOpacity = 0.9,
+      bringToFront = TRUE
+    ),
+    label = ~paste0(
+      "<strong>", borough, "</strong><br/>",
+      "Asthma Rate: ", round(asthma_rate, 1), " per 10,000<br/>",
+      "PM2.5: ", round(pm25_annual, 1), " μg/m³"
+    ) %>% lapply(htmltools::HTML),
+    popup = ~paste0(
+      "<div style='font-size: 14px;'>",
+      "<h4 style='color: #dc2626; margin-bottom: 10px;'>", borough, "</h4>",
+      "<strong>Asthma ED Rate:</strong> ", round(asthma_rate, 1), " per 10,000<br/>",
+      "<strong>PM2.5 Level:</strong> ", round(pm25_annual, 1), " μg/m³<br/>",
+      "<strong>Ratio:</strong> ", round(asthma_rate / pm25_annual, 1), " asthma per PM2.5",
+      "</div>"
+    ) %>% lapply(htmltools::HTML)
+  ) %>%
+  addLegend(
+    position = "bottomright",
+    pal = pal_asthma,
+    values = ~asthma_rate,
+    title = "Asthma Rate<br/>(per 10,000)",
+    opacity = 0.7
+  ) %>%
+  addScaleBar(position = "bottomleft") %>%
+  setView(lng = -73.935242, lat = 40.730610, zoom = 10)
+```
+
+</div>
+
+<div class="spatial-insight">
+<h4>🏥 Geographic Health Disparity</h4>
+The choropleth clearly shows **The Bronx** in dark red, visualizing the disproportionate asthma burden. The actual boundary visualization makes the environmental justice issue more tangible and impactful.
+</div>
+
+## Side-by-Side Comparison
+
+<div class="map-section">
+
+```{r side-by-side-choropleth, fig.height=7}
+# Create synchronized maps
+leaflet(spatial_data_2023) %>%
+  addProviderTiles(providers$CartoDB.Positron) %>%
+  # PM2.5 polygons
+  addPolygons(
+    fillColor = ~pal_pm25(pm25_annual),
+    weight = 2,
+    opacity = 1,
+    color = "white",
+    fillOpacity = 0.7,
+    group = "PM2.5",
+    label = ~paste0(borough, ": ", round(pm25_annual, 1), " μg/m³") %>% 
+      lapply(htmltools::HTML)
+  ) %>%
+  # Asthma polygons
+  addPolygons(
+    fillColor = ~pal_asthma(asthma_rate),
+    weight = 2,
+    opacity = 1,
+    color = "white",
+    fillOpacity = 0.7,
+    group = "Asthma Rate",
+    label = ~paste0(borough, ": ", round(asthma_rate, 1), " per 10,000") %>% 
+      lapply(htmltools::HTML)
+  ) %>%
+  addLayersControl(
+    baseGroups = c("PM2.5", "Asthma Rate"),
+    options = layersControlOptions(collapsed = FALSE)
+  ) %>%
+  addLegend(
+    position = "bottomright",
+    colors = c("#fee5d9", "#a50f15"),
+    labels = c("Lower", "Higher"),
+    title = "Levels",
+    opacity = 0.7
+  ) %>%
+  setView(lng = -73.935242, lat = 40.730610, zoom = 10)
+```
+
+</div>
+
+---
+
+# Static Choropleth Maps
+
+## Using ggplot2 + sf
+
+```{r ggplot-choropleth, fig.height=10, fig.width=12}
+library(patchwork)
+
+# PM2.5 map
+p1 <- ggplot(spatial_data_2023) +
+  geom_sf(aes(fill = pm25_annual), color = "white", size = 0.5) +
+  geom_sf_text(aes(label = borough), size = 3, fontface = "bold") +
+  scale_fill_viridis_c(
+    option = "plasma",
+    name = "PM2.5\n(μg/m³)",
+    direction = -1
+  ) +
+  labs(
+    title = "Annual PM2.5 Concentration by Borough (2023)",
+    subtitle = "Darker colors indicate higher pollution levels"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    plot.title = element_text(face = "bold", size = 16, hjust = 0.5),
+    plot.subtitle = element_text(size = 12, hjust = 0.5, color = "gray40"),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    panel.grid = element_blank()
+  )
+
+# Asthma map
+p2 <- ggplot(spatial_data_2023) +
+  geom_sf(aes(fill = asthma_rate), color = "white", size = 0.5) +
+  geom_sf_text(aes(label = borough), size = 3, fontface = "bold") +
+  scale_fill_viridis_c(
+    option = "inferno",
+    name = "Asthma Rate\n(per 10,000)",
+    direction = -1
+  ) +
+  labs(
+    title = "Asthma ED Visit Rate by Borough (2023)",
+    subtitle = "The Bronx shows dramatically elevated rates"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    plot.title = element_text(face = "bold", size = 16, hjust = 0.5),
+    plot.subtitle = element_text(size = 12, hjust = 0.5, color = "gray40"),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    panel.grid = element_blank()
+  )
+
+p1 / p2
+```
+
+---
+
+# Multi-Year Evolution
+
+## Faceted Choropleth Maps
+
+```{r faceted-choropleth, fig.height=12, fig.width=14}
+# Select key years
+key_years <- c(2009, 2013, 2017, 2020, 2023)
+
+spatial_data_years <- pm25_asthma %>%
+  filter(year %in% key_years) %>%
+  right_join(nyc_boroughs, by = "borough") %>%
+  st_as_sf()
+
+# PM2.5 evolution
+ggplot(spatial_data_years) +
+  geom_sf(aes(fill = pm25_annual), color = "white", size = 0.3) +
+  geom_sf_text(aes(label = borough), size = 2, fontface = "bold") +
+  facet_wrap(~ year, ncol = 3) +
+  scale_fill_viridis_c(
+    option = "plasma",
+    name = "PM2.5\n(μg/m³)",
+    direction = -1,
+    limits = c(5, 13)  # Fixed scale for comparison
+  ) +
+  labs(
+    title = "PM2.5 Concentration Evolution Across NYC Boroughs",
+    subtitle = "Borough boundaries with pollution levels | 2009-2023"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    plot.title = element_text(face = "bold", size = 16, hjust = 0.5),
+    plot.subtitle = element_text(size = 11, hjust = 0.5, color = "gray40"),
+    strip.text = element_text(face = "bold", size = 12),
+    strip.background = element_rect(fill = "gray90", color = NA),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    panel.grid = element_blank()
+  )
+```
+
+```{r faceted-asthma-choropleth, fig.height=12, fig.width=14}
+# Asthma evolution
+ggplot(spatial_data_years) +
+  geom_sf(aes(fill = asthma_rate), color = "white", size = 0.3) +
+  geom_sf_text(aes(label = borough), size = 2, fontface = "bold") +
+  facet_wrap(~ year, ncol = 3) +
+  scale_fill_viridis_c(
+    option = "inferno",
+    name = "Asthma Rate\n(per 10,000)",
+    direction = -1,
+    limits = c(20, 230)  # Fixed scale
+  ) +
+  labs(
+    title = "Asthma ED Rate Evolution Across NYC Boroughs",
+    subtitle = "Geographic health disparities over time | 2009-2023"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    plot.title = element_text(face = "bold", size = 16, hjust = 0.5),
+    plot.subtitle = element_text(size = 11, hjust = 0.5, color = "gray40"),
+    strip.text = element_text(face = "bold", size = 12),
+    strip.background = element_rect(fill = "gray90", color = NA),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    panel.grid = element_blank()
+  )
+```
+
+---
+
+# Spatial Statistics with Real Boundaries
+
+## Calculate Area-Based Metrics
+
+```{r area-calculations}
+# Calculate area of each borough
+borough_areas <- spatial_data_2023 %>%
+  mutate(
+    area_km2 = as.numeric(st_area(geometry)) / 1e6,  # Convert to km²
+    pm25_per_km2 = pm25_annual / area_km2,
+    asthma_per_km2 = asthma_rate / area_km2
+  ) %>%
+  st_drop_geometry()
+
+# Display table
+datatable(
+  borough_areas %>%
+    select(borough, area_km2, pm25_annual, asthma_rate, pm25_per_km2, asthma_per_km2) %>%
+    mutate(across(where(is.numeric), ~round(., 2))),
+  caption = "Borough Statistics Including Area",
+  options = list(pageLength = 5, dom = 't'),
+  rownames = FALSE
+)
+```
+
+## Spatial Neighbors Analysis
+
+```{r spatial-neighbors}
+# Create spatial weights based on queen contiguity
+library(spdep)
+
+# Get neighbors
+neighbors <- poly2nb(spatial_data_2023, queen = TRUE)
+
+# Create summary
+neighbor_summary <- tibble(
+  Borough = spatial_data_2023$borough,
+  `Number of Neighbors` = card(neighbors),
+  `Neighbors` = sapply(neighbors, function(x) {
+    if (length(x) == 0) return("None (island)")
+    paste(spatial_data_2023$borough[x], collapse = ", ")
+  })
+)
+
+knitr::kable(
+  neighbor_summary,
+  caption = "Spatial Contiguity: Which Boroughs Share Boundaries?"
+)
+```
+
+---
+
+# Key Findings with Real Boundaries
+
+<div class="map-section">
+
+## Geographic Insights
+
+1. **Manhattan's Density**: Despite being the smallest borough by area, shows highest PM2.5 concentration
+2. **Bronx's Burden**: Medium-sized borough with disproportionately high asthma rates
+3. **Brooklyn's Position**: Largest population, moderate pollution and asthma levels
+4. **Queens' Extent**: Largest by area, relatively lower pollution and health impacts
+5. **Staten Island**: Most isolated (no shared boundaries), lowest pollution
+
+## Spatial Patterns
+
+- **Contiguity matters**: Bronx borders Manhattan (high PM2.5) but has lower pollution
+- **Size-health relationship**: Borough size ≠ health burden
+- **Environmental justice**: Visible geographic concentration of health disparities
+
+</div>
