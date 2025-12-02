@@ -89,7 +89,7 @@ pm25_asthma <- read_csv("data/merged_pm25_asthma.csv") %>%
 
 ## Use tigris Package (Automated) to download Census boundaries
 
-```{r eval=FALSE}
+```{r message=FALSE, warning=FALSE, results='hide'}
 # Set tigris options
 options(tigris_use_cache = TRUE)
 
