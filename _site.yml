@@ -6,17 +6,17 @@ navbar:
     - text: "Home"
       href: index.html
     - text: "Exploratory Analysis"
-      menu:
-        - text: "Time Series"
-          href: 
-        - text: "Scatterplots & Seasonal"
-          href: 
-        - text: "Borough Comparison & Heatmaps"
-          href: EDA.html
+      href: comprehensive_eda.html
     - text: "Statistical Modeling"
-      href: 
-    - text: "Report"
-      href:
+      href: modeling.html
+    - text: "Final Report"
+      href: report.html
+    - text: "Team"
+      menu:
+        - text: "About Us"
+          href: team.html
+        - text: "Project Proposal"
+          href: proposal.html
   right:
     - icon: fa-github
       href: https://github.com/MS-KIM-CU/Final-Project.github.io
@@ -25,4 +25,8 @@ output:
     theme: cosmo
     highlight: tango
     toc: true
-    toc_float: true
+    toc_float: 
+      collapsed: false
+      smooth_scroll: true
+    code_folding: hide
+    df_print: paged
