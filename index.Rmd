@@ -340,7 +340,7 @@ Goes beyond pure environmental health analysis to examine:
 
 <p style="text-align: center; margin-top: 30px; color: #64748b;">
 <strong>Institution:</strong> Columbia University Mailman School of Public Health<br>
-<strong>Course:</strong> P8105 Data Science I | Fall 2024
+<strong>Course:</strong> P8105 Data Science I | Fall 2025
 </p>
 
 </div>
@@ -406,7 +406,7 @@ All code, data, and documentation are available on GitHub:
 **[github.com/MS-KIM-CU/Final-Project.github.io](https://github.com/MS-KIM-CU/Final-Project.github.io)**
 
 <p style="margin-top: 20px; font-size: 0.9rem; opacity: 0.8;">
-P8105 Final Project | Columbia University Mailman School of Public Health | 2024
+P8105 Final Project | Columbia University Mailman School of Public Health | 2025
 </p>
 
 </div>
