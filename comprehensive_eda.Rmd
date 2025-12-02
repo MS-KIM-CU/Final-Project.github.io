@@ -2,7 +2,6 @@
 title: "Exploratory Data Analysis"
 subtitle: "Air Pollution and Asthma in NYC (2009-2023)"
 author: " Minseo Kim, Wenyu Lu, Jiaqi Zhu"
-date: "`r Sys.Date()`"
 output: 
   html_document:
     toc: true
