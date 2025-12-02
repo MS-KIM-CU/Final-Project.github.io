@@ -135,7 +135,7 @@ nyc_boroughs %>%
   knitr::kable()
 ```
 
-## Merge with Your Data
+## Merge with Data
 
 ```{r merge-spatial-data}
 # For 2023 data
@@ -220,15 +220,6 @@ leaflet(spatial_data_2023) %>%
   setView(lng = -73.935242, lat = 40.730610, zoom = 10)
 ```
 
-</div>
-
-<div class="spatial-insight">
-<h4>🗺️ Choropleth Map Advantages</h4>
-**Real boundaries** show the actual geographic extent of each borough, unlike point markers. You can now see:
-- Relative size of each borough
-- Actual shapes and boundaries
-- Continuous color fill representing pollution levels
-- Hover over any area for details
 </div>
 
 ## Asthma Rate Choropleth (2023)
