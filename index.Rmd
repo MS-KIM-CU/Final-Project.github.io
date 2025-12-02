@@ -9,7 +9,14 @@ output:
 
 <style>
 .hero-section {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: 
+    linear-gradient(135deg, 
+                    rgba(102, 126, 234, 0.9) 0%, 
+                    rgba(118, 75, 162, 0.9) 100%),
+    url('images/nyc-cityscape.png');
+  background-size: cover;
+  background-position: center;
+  background-blend-mode: multiply;
   color: white;
   padding: 60px 40px;
   border-radius: 15px;
@@ -49,9 +56,8 @@ output:
   box-shadow: 0 8px 30px rgba(0,0,0,0.15);
 }
 
-.feature-card.new {
+.feature-card.spatial {
   border-top-color: #f59e0b;
-  background: linear-gradient(to bottom, #fffbeb 0%, white 100%);
 }
 
 .feature-card h3 {
@@ -60,18 +66,8 @@ output:
   font-size: 1.3rem;
 }
 
-.feature-card.new h3 {
+.feature-card.spatial h3 {
   color: #f59e0b;
-}
-
-.new-badge {
-  background: #f59e0b;
-  color: white;
-  padding: 4px 12px;
-  border-radius: 12px;
-  font-size: 0.75rem;
-  font-weight: bold;
-  margin-left: 10px;
 }
 
 .stat-grid {
@@ -157,7 +153,7 @@ output:
 </style>
 
 <div class="hero-section">
-<h2>🗺️ Air Pollution & Asthma in NYC</h2>
+<h2>Air Pollution & Asthma in NYC</h2>
 <p>A Comprehensive Analysis of Environmental Health from 2009-2023</p>
 <p style="font-size: 1rem; margin-top: 15px;"><em>Exploring the relationship between PM2.5 levels and asthma emergency department visits across New York City's five boroughs</em></p>
 </div>
@@ -221,16 +217,16 @@ Air pollution is a major public health concern in urban environments. This proje
 <a href="comprehensive_eda.html" class="btn-primary-custom">View EDA →</a>
 </div>
 
-<div class="feature-card new">
-<h3>🗺️ Spatial Modeling <span class="new-badge">NEW</span></h3>
+<div class="feature-card">
+<h3>🗺️ Spatial Modeling</h3>
 <p>Interactive geographic analysis revealing spatial patterns of air pollution and health outcomes. Explore maps, distance effects, and environmental justice implications.</p>
 <ul style="text-align: left; font-size: 0.9rem;">
-<li><strong>Interactive Leaflet maps</strong></li>
-<li><strong>Temporal-spatial evolution</strong></li>
-<li><strong>Distance & correlation analysis</strong></li>
-<li><strong>Environmental justice insights</strong></li>
+<li>Interactive Leaflet maps</li>
+<li>Temporal-spatial evolution</li>
+<li>Distance & correlation analysis</li>
+<li>Environmental justice insights</li>
 </ul>
-<a href="spatial_modeling.html" class="btn-primary-custom" style="background: linear-gradient(135deg, #f59e0b 0%, #dc2626 100%);">Explore Maps →</a>
+<a href="spatial_modeling.html" class="btn-primary-custom">Explore Maps →</a>
 </div>
 
 <div class="feature-card">
@@ -323,7 +319,7 @@ Goes beyond pure environmental health analysis to examine:
 <div class="team-grid">
 
 <div class="team-member">
-<div class="avatar">W</div>
+<div class="avatar">M</div>
 <h4>Minseo Kim (Brenda)</h4>
 <p style="font-size: 0.9rem; color: #64748b;">Borough Comparison & Spatial Analysis</p>
 </div>
@@ -335,7 +331,7 @@ Goes beyond pure environmental health analysis to examine:
 </div>
 
 <div class="team-member">
-<div class="avatar">M</div>
+<div class="avatar">W</div>
 <h4>Wenyu Lu (Bruce)</h4>
 <p style="font-size: 0.9rem; color: #64748b;">Scatterplots & Association Analysis</p>
 </div>
@@ -385,8 +381,12 @@ Goes beyond pure environmental health analysis to examine:
 📊 Start with EDA
 </a>
 
-<a href="spatial_modeling.html" class="btn-primary-custom" style="font-size: 1.1rem; background: linear-gradient(135deg, #f59e0b 0%, #dc2626 100%);">
+<a href="spatial_modeling.html" class="btn-primary-custom" style="font-size: 1.1rem; background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);">
 🗺️ View Spatial Analysis
+</a>
+
+<a href="modeling.html" class="btn-primary-custom" style="font-size: 1.1rem; background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);">
+📐 Statistical Models
 </a>
 
 <a href="https://github.com/MS-KIM-CU/Final-Project.github.io" class="btn-primary-custom" style="font-size: 1.1rem; background: #1e293b;">
