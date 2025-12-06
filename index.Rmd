@@ -385,7 +385,7 @@ Goes beyond pure environmental health analysis to examine:
 🗺️ View Spatial Analysis
 </a>
 
-<a href="modeling.html" class="btn-primary-custom" style="font-size: 1.1rem; background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);">
+<a href="stat_modeling.html" class="btn-primary-custom" style="font-size: 1.1rem; background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);">
 📐 Statistical Models
 </a>
 
