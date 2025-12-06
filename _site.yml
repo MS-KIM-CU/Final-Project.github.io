@@ -14,17 +14,10 @@ navbar:
         - text: "Spatial Modeling"
           href: spatial_modeling.html
         - text: "Statistical Modeling"
-          href: modeling.html
+          href: stat_modeling.html
     - text: "Final Report"
       icon: fa-file-text
       href: report.html
-    - text: "About"
-      icon: fa-users
-      menu:
-        - text: "Team Members"
-          href: team.html
-        - text: "Project Proposal"
-          href: proposal.html
   right:
     - icon: fa-github fa-lg
       href: https://github.com/MS-KIM-CU/Final-Project.github.io
