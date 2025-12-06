@@ -1,10 +1,11 @@
 ---
-title: "Air Pollution and Asthma Emergency Department Visits in New York City"
-subtitle: "A Comprehensive Time-Series, Spatial, and Statistical Analysis"
+title: ""
+subtitle: ""
 output: 
   html_document:
     toc: false
     theme: cosmo
+    code_folding: none
 ---
 
 <style>
@@ -25,13 +26,13 @@ output:
 }
 
 .hero-section h2 {
-  font-size: 2.5rem;
+  font-size: 4rem;
   font-weight: 700;
   margin-bottom: 20px;
 }
 
 .hero-section p {
-  font-size: 1.2rem;
+  font-size: 2rem;
   opacity: 0.95;
 }
 
@@ -63,7 +64,7 @@ output:
 .feature-card h3 {
   color: #2563eb;
   margin-bottom: 15px;
-  font-size: 1.3rem;
+  font-size: 2rem;
 }
 
 .feature-card.spatial h3 {
@@ -92,7 +93,7 @@ output:
 }
 
 .stat-label {
-  font-size: 0.95rem;
+  font-size: 1.5rem;
   opacity: 0.9;
 }
 
@@ -155,10 +156,10 @@ output:
 <div class="hero-section">
 <h2>Air Pollution & Asthma in NYC</h2>
 <p>A Comprehensive Analysis of Environmental Health from 2009-2023</p>
-<p style="font-size: 1rem; margin-top: 15px;"><em>Exploring the relationship between PM2.5 levels and asthma emergency department visits across New York City's five boroughs</em></p>
+<p style="font-size: 1.5rem; margin-top: 15px;"><em>Exploring the relationship between PM2.5 levels and asthma emergency department visits across New York City's five boroughs</em></p>
 </div>
 
-## 📊 Project Overview
+## Project Overview
 
 Air pollution is a major public health concern in urban environments. This project examines how fine particulate matter (PM2.5) relates to asthma emergency department visits in New York City, combining **time-series analysis**, **spatial modeling**, and **statistical inference** to understand environmental health patterns.
 
@@ -171,7 +172,7 @@ Air pollution is a major public health concern in urban environments. This proje
 
 ---
 
-## 🔍 Key Findings
+## Key Findings
 
 <div class="stat-grid">
 <div class="stat-box">
@@ -201,63 +202,39 @@ Air pollution is a major public health concern in urban environments. This proje
 
 ---
 
-## 📈 Explore Our Analysis
+## Explore Our Analysis
 
 <div class="feature-grid">
 
 <div class="feature-card">
-<h3>📊 Exploratory Data Analysis</h3>
+<h3>Exploratory Data Analysis</h3>
 <p>Comprehensive visual exploration of temporal trends, seasonal patterns, and borough-level comparisons. Includes 20+ interactive charts and statistical summaries.</p>
-<ul style="text-align: left; font-size: 0.9rem;">
-<li>Time series visualizations (Plotly)</li>
-<li>Correlation analysis</li>
-<li>Borough faceted comparisons</li>
-<li>Heatmaps and seasonal patterns</li>
-</ul>
 <a href="comprehensive_eda.html" class="btn-primary-custom">View EDA →</a>
 </div>
 
 <div class="feature-card">
-<h3>🗺️ Spatial Modeling</h3>
+<h3> Spatial Modeling</h3>
 <p>Interactive geographic analysis revealing spatial patterns of air pollution and health outcomes. Explore maps, distance effects, and environmental justice implications.</p>
-<ul style="text-align: left; font-size: 0.9rem;">
-<li>Interactive Leaflet maps</li>
-<li>Temporal-spatial evolution</li>
-<li>Distance & correlation analysis</li>
-<li>Environmental justice insights</li>
-</ul>
 <a href="spatial_modeling.html" class="btn-primary-custom">Explore Maps →</a>
 </div>
 
 <div class="feature-card">
-<h3>📐 Statistical Modeling</h3>
+<h3>Statistical Modeling</h3>
 <p>Rigorous statistical analysis using regression models to quantify the association between PM2.5 and asthma while controlling for confounders.</p>
-<ul style="text-align: left; font-size: 0.9rem;">
-<li>Linear regression models</li>
-<li>Interaction effects</li>
-<li>Model diagnostics</li>
-<li>Effect size interpretation</li>
-</ul>
 <a href="stat_modeling.html" class="btn-primary-custom">View Models →</a>
 </div>
 
 <div class="feature-card">
-<h3>📄 Final Report</h3>
+<h3>Final Report</h3>
 <p>Complete synthesis of findings, methodology, and public health implications. Includes detailed discussion and recommendations.</p>
-<ul style="text-align: left; font-size: 0.9rem;">
-<li>Comprehensive methodology</li>
-<li>Integrated results</li>
-<li>Discussion & limitations</li>
-<li>Public health recommendations</li>
-</ul>
-<a href="report.html" class="btn-primary-custom">Read Report →</a>
+<a href="Report.html" class="btn-primary-custom">Read Report →</a>
 </div>
 
 </div>
 
 ---
 
-## 🎯 What Makes This Analysis Unique?
+## What Makes This Analysis Unique?
 
 <div style="background: #f0f9ff; padding: 30px; border-radius: 12px; border-left: 5px solid #2563eb; margin: 30px 0;">
 
@@ -271,10 +248,10 @@ This project stands out by combining **three complementary analytical methods**:
 
 ### Interactive & Reproducible
 
-- ✅ **20+ Interactive visualizations** using Plotly and Leaflet
-- ✅ **Fully reproducible analysis** with documented R code
-- ✅ **Professional web presentation** via GitHub Pages
-- ✅ **Open data sources** from NYC government
+- **20+ Interactive visualizations** using Plotly and Leaflet
+- **Fully reproducible analysis** with documented R code
+- **Professional web presentation** via GitHub Pages
+- **Open data sources** from NYC government
 
 ### Environmental Justice Focus
 
@@ -287,20 +264,20 @@ Goes beyond pure environmental health analysis to examine:
 
 ---
 
-## 📚 Data Sources
+## Data Sources
 
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 30px 0;">
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
 
-<div style="background: white; padding: 25px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.08);">
-<h4 style="color: #2563eb; margin-top: 0;">🌫️ Air Quality (PM2.5)</h4>
+<div style="background: white; padding: 50px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.08);">
+<h4 style="color: #2563eb; text-align: center;"> Air Quality (PM2.5)</h4>
 <p><strong>Source:</strong> NYC Open Data</p>
 <p><strong>Coverage:</strong> 2009-2023, all 5 boroughs</p>
 <p><strong>Variables:</strong> Annual, summer, and winter PM2.5 concentrations</p>
 <a href="https://data.cityofnewyork.us/" target="_blank" style="color: #2563eb;">NYC Open Data Portal →</a>
 </div>
 
-<div style="background: white; padding: 25px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.08);">
-<h4 style="color: #2563eb; margin-top: 0;">🏥 Asthma ED Visits</h4>
+<div style="background: white; padding: 50px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.08);">
+<h4 style="color: #2563eb; text-align: center;"> Asthma ED Visits</h4>
 <p><strong>Source:</strong> NYC DOHMH</p>
 <p><strong>Coverage:</strong> 2009-2023, borough-level</p>
 <p><strong>Variables:</strong> Age-standardized ED visit rates (per 10,000)</p>
@@ -311,7 +288,7 @@ Goes beyond pure environmental health analysis to examine:
 
 ---
 
-## 👥 Team Members
+## Team Members
 
 <div class="team-section">
 <h3 style="text-align: center; color: #2563eb; margin-bottom: 30px;">P8105 Data Science I - Final Project Team</h3>
@@ -321,19 +298,19 @@ Goes beyond pure environmental health analysis to examine:
 <div class="team-member">
 <div class="avatar">M</div>
 <h4>Minseo Kim (Brenda)</h4>
-<p style="font-size: 0.9rem; color: #64748b;">Borough Comparison & Spatial Analysis</p>
+<p style="font-size: 1.5rem; color: #64748b;">mk5184</p>
 </div>
 
 <div class="team-member">
 <div class="avatar">J</div>
 <h4>Jiaqi Zhu</h4>
-<p style="font-size: 0.9rem; color: #64748b;">Time Series & Interactive Visualizations</p>
+<p style="font-size: 1.5rem; color: #64748b;">jz3898</p>
 </div>
 
 <div class="team-member">
 <div class="avatar">W</div>
 <h4>Wenyu Lu (Bruce)</h4>
-<p style="font-size: 0.9rem; color: #64748b;">Scatterplots & Association Analysis</p>
+<p style="font-size: 1.5rem; color: #64748b;">wl3010</p>
 </div>
 
 </div>
@@ -347,7 +324,7 @@ Goes beyond pure environmental health analysis to examine:
 
 ---
 
-## 🎥 Project Screencast
+## Project Screencast
 
 <div style="text-align: center; background: #f8fafc; padding: 40px; border-radius: 12px; margin: 30px 0;">
 <h3 style="color: #2563eb;">2-Minute Project Overview</h3>
@@ -371,26 +348,24 @@ Goes beyond pure environmental health analysis to examine:
 
 ---
 
-## 🚀 Get Started
-
 <div style="text-align: center; margin: 40px 0;">
 
 ### Ready to explore our analysis?
 
 <a href="comprehensive_eda.html" class="btn-primary-custom" style="font-size: 1.1rem;">
-📊 Start with EDA
+Start with EDA
 </a>
 
 <a href="spatial_modeling.html" class="btn-primary-custom" style="font-size: 1.1rem; background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);">
-🗺️ View Spatial Analysis
+View Spatial Analysis
 </a>
 
 <a href="stat_modeling.html" class="btn-primary-custom" style="font-size: 1.1rem; background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);">
-📐 Statistical Models
+Statistical Models
 </a>
 
 <a href="https://github.com/MS-KIM-CU/Final-Project.github.io" class="btn-primary-custom" style="font-size: 1.1rem; background: #1e293b;">
-💻 View on GitHub
+View on GitHub
 </a>
 
 </div>
@@ -399,7 +374,7 @@ Goes beyond pure environmental health analysis to examine:
 
 <div style="background: #1e293b; color: white; padding: 30px; border-radius: 12px; margin-top: 50px; text-align: center;">
 
-### 📍 Project Repository
+### Project Repository
 
 All code, data, and documentation are available on GitHub:
 
