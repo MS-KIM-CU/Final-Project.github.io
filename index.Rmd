@@ -266,7 +266,7 @@ Air pollution is a major public health concern in urban environments. This proje
 This project stands out by combining **three complementary analytical methods**:
 
 1. **Exploratory Data Analysis** - Descriptive statistics and visual patterns
-2. **Spatial Modeling** ⭐ - Geographic patterns and environmental justice analysis  
+2. **Spatial Modeling** - Geographic patterns and environmental justice analysis  
 3. **Statistical Inference** - Causal relationship estimation and hypothesis testing
 
 ### Interactive & Reproducible
