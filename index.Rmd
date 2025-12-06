@@ -238,7 +238,7 @@ Air pollution is a major public health concern in urban environments. This proje
 <li>Model diagnostics</li>
 <li>Effect size interpretation</li>
 </ul>
-<a href="modeling.html" class="btn-primary-custom">View Models →</a>
+<a href="stat_modeling.html" class="btn-primary-custom">View Models →</a>
 </div>
 
 <div class="feature-card">
