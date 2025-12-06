@@ -14,7 +14,7 @@ navbar:
         - text: "Spatial Modeling"
           href: spatial_modeling.html
         - text: "Statistical Modeling"
-          href: stat_modeling.html
+          href: stat_modeling.html  
     - text: "Final Report"
       icon: fa-file-text
       href: Report.html
