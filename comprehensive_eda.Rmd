@@ -1,12 +1,11 @@
 ---
 title: "Exploratory Data Analysis"
 subtitle: "Air Pollution and Asthma in NYC (2009-2023)"
+author: "Minseo Kim, Wenyu Lu, Jiaqi Zhu"
 output: 
   html_document:
     toc: true
-    toc_float: 
-      collapsed: false
-      smooth_scroll: true
+    toc_float: true
     toc_depth: 3
     theme: cosmo
     code_folding: hide
@@ -14,45 +13,53 @@ output:
 ---
 
 <style>
-/* Main container - wider for better content display */
 .main-container {
   max-width: 1400px;
   margin: auto;
   padding: 20px;
 }
 
-/* Section headers - improved visibility */
-.section-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white !important;
-  padding: 25px;
-  border-radius: 12px;
-  margin-top: 40px;
-  margin-bottom: 25px;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-}
-
-.section-header h1, 
-.section-header h2,
-.section-header h3 {
-  color: white !important;
-  margin: 0;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-}
-
-/* Improved text contrast */
 body {
   color: #2d3748;
   font-size: 16px;
   line-height: 1.6;
 }
 
-h1, h2, h3, h4, h5, h6 {
+/* Only style section h1 headers (exclude document title) */
+h1:not(.title) {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white !important;
+  padding: 20px 25px;
+  border-radius: 12px;
+  margin-top: 35px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+  font-weight: 600;
+  font-size: 1.8em;
+}
+
+h1.title {
+  color: #1a202c;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+h2, h3, h4, h5, h6 {
   color: #1a202c;
   font-weight: 600;
 }
 
-/* Key findings box - better visibility */
+/* Author styling */
+h4.author {
+  color: #64748b;
+  font-size: 1.1em;
+  margin-top: 5px;
+  margin-bottom: 30px;
+  font-style: italic;
+  font-weight: 400;
+}
+
 .key-finding {
   background: linear-gradient(to right, #eff6ff, #dbeafe);
   border-left: 5px solid #2563eb;
@@ -67,7 +74,6 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
 }
 
-/* Stat boxes - improved layout */
 .stat-box {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
@@ -85,7 +91,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .stat-value {
-  font-size: 2.8em;
+  font-size: 2.5em;
   font-weight: bold;
   margin: 15px 0;
   text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
@@ -97,23 +103,6 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.4;
 }
 
-/* Analyst note - improved visibility */
-.analyst-note {
-  background: linear-gradient(to right, #fffbeb, #fef3c7);
-  border-left: 5px solid #f59e0b;
-  padding: 15px;
-  margin: 15px 0;
-  border-radius: 8px;
-  font-style: italic;
-  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.1);
-}
-
-.analyst-note strong {
-  color: #92400e;
-  font-weight: 700;
-}
-
-/* Tab styling */
 .tabset-pills > li > a {
   border-radius: 20px;
   padding: 10px 24px;
@@ -132,7 +121,6 @@ h1, h2, h3, h4, h5, h6 {
   background-color: #e0e7ff;
 }
 
-/* Plotly containers - prevent overflow */
 .plotly {
   width: 100% !important;
   max-width: 100%;
@@ -142,17 +130,11 @@ h1, h2, h3, h4, h5, h6 {
   max-width: 100%;
 }
 
-/* Table styling */
-.dataTables_wrapper {
-  margin: 20px 0;
-}
-
 table {
   width: 100%;
   border-collapse: collapse;
 }
 
-/* Responsive images and plots */
 img, 
 .plotly,
 .html-widget {
@@ -160,7 +142,6 @@ img,
   height: auto;
 }
 
-/* Grid layout for stat boxes */
 .row {
   display: flex;
   flex-wrap: wrap;
@@ -187,39 +168,6 @@ img,
   }
 }
 
-/* Code folding button */
-.code-folding-btn {
-  margin: 10px 0;
-}
-
-/* TOC styling - improved floating with sticky position */
-#TOC {
-  background-color: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  padding: 15px;
-  position: sticky !important;
-  top: 20px !important;
-  max-height: calc(100vh - 40px);
-  overflow-y: auto;
-}
-
-/* Smooth TOC scrolling */
-.tocify {
-  border: none;
-  border-radius: 8px;
-}
-
-.tocify-header {
-  text-indent: 10px;
-  font-size: 13px;
-}
-
-.tocify-subheader {
-  font-size: 12px;
-}
-
-/* Footer styling */
 .footer-box {
   background-color: #f8fafc;
   border: 1px solid #e2e8f0;
@@ -234,13 +182,12 @@ knitr::opts_chunk$set(
   echo = TRUE,
   message = FALSE,
   warning = FALSE,
-  fig.width = 12,
-  fig.height = 4.5,
+  fig.width = 10,
+  fig.height = 3.5,
   out.width = "100%",
   dpi = 300
 )
 
-# Load all required libraries
 library(tidyverse)
 library(plotly)
 library(viridis)
@@ -252,10 +199,8 @@ library(DT)
 ```
 
 ```{r load-data, include=FALSE}
-# Load the merged dataset
 pm25_asthma <- read_csv("data/merged_pm25_asthma.csv")
 
-# Prepare data
 pm25_asthma_clean <- pm25_asthma %>%
   mutate(
     borough = factor(borough, 
@@ -264,7 +209,6 @@ pm25_asthma_clean <- pm25_asthma %>%
   ) %>%
   arrange(year, borough)
 
-# Long format for seasonal data
 df_long <- pm25_asthma_clean %>%
   pivot_longer(
     cols = c(pm25_annual, pm25_summer, pm25_winter),
@@ -280,23 +224,19 @@ df_long <- pm25_asthma_clean %>%
     pm25_type = factor(pm25_type, levels = c("Annual", "Summer", "Winter"))
   )
 
-# Calculate difference
 pm25_asthma_clean <- pm25_asthma_clean %>%
   mutate(pm25_diff = pm25_winter - pm25_summer)
 ```
 
 ---
 
-<div class="section-header">
-<h1>📊 Overview</h1>
-</div>
+# Overview
 
-This comprehensive exploratory data analysis examines the relationship between air pollution (PM2.5) and asthma emergency department visits across NYC's five boroughs from 2009 to 2023. Our analysis combines time-series trends, seasonal patterns, geographic comparisons, and correlation analyses to understand how air quality affects respiratory health in different neighborhoods.
+This comprehensive exploratory data analysis examines the relationship between air pollution (PM2.5) and asthma emergency department visits across NYC's five boroughs from 2009 to 2023.
 
 ## Dataset Summary
 
 ```{r data-summary}
-# Create summary table
 summary_table <- tibble(
   Metric = c("Time Period", "Boroughs", "Total Observations", 
              "PM2.5 Range (μg/m³)", "Asthma Rate Range (per 10,000)"),
@@ -341,13 +281,11 @@ datatable(borough_summary,
 
 ---
 
-<div class="section-header">
-<h1>📈 Time Series Analysis</h1>
-</div>
+# Time Series Analysis
 
 ## PM2.5 Trends Over Time
 
-```{r pm25-timeseries-interactive}
+```{r pm25-timeseries}
 p1 <- pm25_asthma_clean %>%
   plot_ly(x = ~year, y = ~pm25_annual, color = ~borough,
           type = 'scatter', mode = 'lines+markers',
@@ -359,33 +297,12 @@ p1 <- pm25_asthma_clean %>%
             '<extra></extra>'
           )) %>%
   layout(
-    title = list(
-      text = "<b>Annual PM2.5 Concentrations by Borough (2009-2023)</b>",
-      font = list(size = 18)
-    ),
-    xaxis = list(
-      title = "Year",
-      titlefont = list(size = 14),
-      tickfont = list(size = 12),
-      gridcolor = 'rgba(200,200,200,0.3)'
-    ),
-    yaxis = list(
-      title = "PM2.5 (μg/m³)",
-      titlefont = list(size = 14),
-      tickfont = list(size = 12),
-      gridcolor = 'rgba(200,200,200,0.3)'
-    ),
+    title = list(text = "<b>Annual PM2.5 Concentrations by Borough (2009-2023)</b>", font = list(size = 16)),
+    xaxis = list(title = "Year", titlefont = list(size = 13), tickfont = list(size = 11)),
+    yaxis = list(title = "PM2.5 (μg/m³)", titlefont = list(size = 13), tickfont = list(size = 11)),
     hovermode = 'closest',
-    legend = list(
-      title = list(text = '<b>Borough</b>'),
-      orientation = 'v',
-      x = 1.02,
-      y = 1,
-      font = list(size = 11)
-    ),
-    plot_bgcolor = 'rgba(250,250,250,0.9)',
-    paper_bgcolor = 'white',
-    margin = list(l = 80, r = 120, t = 80, b = 60),
+    legend = list(title = list(text = '<b>Borough</b>'), x = 1.02, y = 1, font = list(size = 10)),
+    margin = list(l = 60, r = 100, t = 60, b = 50),
     autosize = TRUE
   )
 
@@ -398,7 +315,7 @@ p1
 
 ## Asthma ED Visit Trends
 
-```{r asthma-timeseries-interactive}
+```{r asthma-timeseries}
 p2 <- pm25_asthma_clean %>%
   plot_ly(x = ~year, y = ~asthma_rate, color = ~borough,
           type = 'scatter', mode = 'lines+markers',
@@ -410,33 +327,12 @@ p2 <- pm25_asthma_clean %>%
             '<extra></extra>'
           )) %>%
   layout(
-    title = list(
-      text = "<b>Asthma Emergency Department Visit Rates by Borough (2009-2023)</b>",
-      font = list(size = 18)
-    ),
-    xaxis = list(
-      title = "Year",
-      titlefont = list(size = 14),
-      tickfont = list(size = 12),
-      gridcolor = 'rgba(200,200,200,0.3)'
-    ),
-    yaxis = list(
-      title = "ED Visit Rate (per 10,000 population)",
-      titlefont = list(size = 14),
-      tickfont = list(size = 12),
-      gridcolor = 'rgba(200,200,200,0.3)'
-    ),
+    title = list(text = "<b>Asthma Emergency Department Visit Rates by Borough (2009-2023)</b>", font = list(size = 16)),
+    xaxis = list(title = "Year", titlefont = list(size = 13), tickfont = list(size = 11)),
+    yaxis = list(title = "ED Visit Rate (per 10,000)", titlefont = list(size = 13), tickfont = list(size = 11)),
     hovermode = 'closest',
-    legend = list(
-      title = list(text = '<b>Borough</b>'),
-      orientation = 'v',
-      x = 1.02,
-      y = 1,
-      font = list(size = 11)
-    ),
-    plot_bgcolor = 'rgba(250,250,250,0.9)',
-    paper_bgcolor = 'white',
-    margin = list(l = 80, r = 120, t = 80, b = 60),
+    legend = list(title = list(text = '<b>Borough</b>'), x = 1.02, y = 1, font = list(size = 10)),
+    margin = list(l = 60, r = 100, t = 60, b = 50),
     autosize = TRUE
   )
 
@@ -447,299 +343,153 @@ p2
 **Key Finding:** The Bronx consistently shows asthma ED rates 2-4 times higher than other boroughs throughout the study period, highlighting persistent health disparities.
 </div>
 
-## Combined View {.tabset .tabset-pills}
+## Borough Comparisons {.tabset .tabset-pills}
 
-### Stacked View
+### Manhattan
 
-```{r combined-interactive, fig.height=6}
-combined_plot <- subplot(
-  p1 %>% layout(showlegend = TRUE),
-  p2 %>% layout(showlegend = FALSE),
-  nrows = 2,
-  shareX = FALSE,
-  titleY = TRUE,
-  heights = c(0.5, 0.5)
-) %>%
-  layout(
-    title = list(
-      text = "<b>PM2.5 and Asthma Trends Comparison</b>",
-      font = list(size = 20)
-    ),
-    margin = list(t = 100)
-  )
-
-combined_plot
-```
-
-### Borough Tabs
-
-```{r borough-tabs-setup, include=FALSE}
-# Prepare data for individual borough analysis
-borough_list <- levels(pm25_asthma_clean$borough)
-```
-
-#### Manhattan
-
-```{r manhattan-dual}
+```{r manhattan-dual, fig.height=3}
 manhattan_data <- pm25_asthma_clean %>% filter(borough == "Manhattan")
 
 plot_ly(manhattan_data) %>%
-  add_trace(
-    x = ~year, y = ~pm25_annual,
-    type = 'scatter', mode = 'lines+markers',
-    name = 'PM2.5',
-    yaxis = 'y',
-    line = list(color = '#f59e0b', width = 3),
-    marker = list(size = 8, color = '#f59e0b')
-  ) %>%
-  add_trace(
-    x = ~year, y = ~asthma_rate,
-    type = 'scatter', mode = 'lines+markers',
-    name = 'Asthma Rate',
-    yaxis = 'y2',
-    line = list(color = '#dc2626', width = 3),
-    marker = list(size = 8, color = '#dc2626')
-  ) %>%
+  add_trace(x = ~year, y = ~pm25_annual, type = 'scatter', mode = 'lines+markers',
+            name = 'PM2.5', yaxis = 'y',
+            line = list(color = '#f59e0b', width = 2.5), marker = list(size = 7)) %>%
+  add_trace(x = ~year, y = ~asthma_rate, type = 'scatter', mode = 'lines+markers',
+            name = 'Asthma Rate', yaxis = 'y2',
+            line = list(color = '#dc2626', width = 2.5), marker = list(size = 7)) %>%
   layout(
-    title = list(text = "<b>Manhattan: PM2.5 vs Asthma ED Visits</b>", font = list(size = 18)),
-    xaxis = list(title = "Year", titlefont = list(size = 14)),
-    yaxis = list(
-      title = "PM2.5 (μg/m³)",
-      titlefont = list(size = 14, color = '#f59e0b'),
-      tickfont = list(color = '#f59e0b')
-    ),
-    yaxis2 = list(
-      title = "Asthma Rate (per 10,000)",
-      titlefont = list(size = 14, color = '#dc2626'),
-      tickfont = list(color = '#dc2626'),
-      overlaying = 'y',
-      side = 'right'
-    ),
-    margin = list(l = 80, r = 80, t = 80, b = 60),
+    title = list(text = "<b>Manhattan: PM2.5 vs Asthma ED Visits</b>", font = list(size = 15)),
+    xaxis = list(title = "Year", titlefont = list(size = 12)),
+    yaxis = list(title = "PM2.5 (μg/m³)", titlefont = list(size = 12, color = '#f59e0b'), tickfont = list(color = '#f59e0b')),
+    yaxis2 = list(title = "Asthma Rate (per 10,000)", titlefont = list(size = 12, color = '#dc2626'), 
+                  tickfont = list(color = '#dc2626'), overlaying = 'y', side = 'right'),
+    margin = list(l = 60, r = 60, t = 50, b = 40),
     hovermode = 'x unified'
   )
 ```
 
-#### Bronx
+### Bronx
 
-```{r bronx-dual}
+```{r bronx-dual, fig.height=3}
 bronx_data <- pm25_asthma_clean %>% filter(borough == "Bronx")
 
 plot_ly(bronx_data) %>%
-  add_trace(
-    x = ~year, y = ~pm25_annual,
-    type = 'scatter', mode = 'lines+markers',
-    name = 'PM2.5',
-    yaxis = 'y',
-    line = list(color = '#f59e0b', width = 3),
-    marker = list(size = 8, color = '#f59e0b')
-  ) %>%
-  add_trace(
-    x = ~year, y = ~asthma_rate,
-    type = 'scatter', mode = 'lines+markers',
-    name = 'Asthma Rate',
-    yaxis = 'y2',
-    line = list(color = '#dc2626', width = 3),
-    marker = list(size = 8, color = '#dc2626')
-  ) %>%
+  add_trace(x = ~year, y = ~pm25_annual, type = 'scatter', mode = 'lines+markers',
+            name = 'PM2.5', yaxis = 'y',
+            line = list(color = '#f59e0b', width = 2.5), marker = list(size = 7)) %>%
+  add_trace(x = ~year, y = ~asthma_rate, type = 'scatter', mode = 'lines+markers',
+            name = 'Asthma Rate', yaxis = 'y2',
+            line = list(color = '#dc2626', width = 2.5), marker = list(size = 7)) %>%
   layout(
-    title = list(text = "<b>Bronx: PM2.5 vs Asthma ED Visits</b>", font = list(size = 18)),
-    xaxis = list(title = "Year", titlefont = list(size = 14)),
-    yaxis = list(
-      title = "PM2.5 (μg/m³)",
-      titlefont = list(size = 14, color = '#f59e0b'),
-      tickfont = list(color = '#f59e0b')
-    ),
-    yaxis2 = list(
-      title = "Asthma Rate (per 10,000)",
-      titlefont = list(size = 14, color = '#dc2626'),
-      tickfont = list(color = '#dc2626'),
-      overlaying = 'y',
-      side = 'right'
-    ),
-    margin = list(l = 80, r = 80, t = 80, b = 60),
+    title = list(text = "<b>Bronx: PM2.5 vs Asthma ED Visits</b>", font = list(size = 15)),
+    xaxis = list(title = "Year", titlefont = list(size = 12)),
+    yaxis = list(title = "PM2.5 (μg/m³)", titlefont = list(size = 12, color = '#f59e0b'), tickfont = list(color = '#f59e0b')),
+    yaxis2 = list(title = "Asthma Rate (per 10,000)", titlefont = list(size = 12, color = '#dc2626'), 
+                  tickfont = list(color = '#dc2626'), overlaying = 'y', side = 'right'),
+    margin = list(l = 60, r = 60, t = 50, b = 40),
     hovermode = 'x unified'
   )
 ```
 
-#### Brooklyn
+### Brooklyn
 
-```{r brooklyn-dual}
+```{r brooklyn-dual, fig.height=3}
 brooklyn_data <- pm25_asthma_clean %>% filter(borough == "Brooklyn")
 
 plot_ly(brooklyn_data) %>%
-  add_trace(
-    x = ~year, y = ~pm25_annual,
-    type = 'scatter', mode = 'lines+markers',
-    name = 'PM2.5',
-    yaxis = 'y',
-    line = list(color = '#f59e0b', width = 3),
-    marker = list(size = 8, color = '#f59e0b')
-  ) %>%
-  add_trace(
-    x = ~year, y = ~asthma_rate,
-    type = 'scatter', mode = 'lines+markers',
-    name = 'Asthma Rate',
-    yaxis = 'y2',
-    line = list(color = '#dc2626', width = 3),
-    marker = list(size = 8, color = '#dc2626')
-  ) %>%
+  add_trace(x = ~year, y = ~pm25_annual, type = 'scatter', mode = 'lines+markers',
+            name = 'PM2.5', yaxis = 'y',
+            line = list(color = '#f59e0b', width = 2.5), marker = list(size = 7)) %>%
+  add_trace(x = ~year, y = ~asthma_rate, type = 'scatter', mode = 'lines+markers',
+            name = 'Asthma Rate', yaxis = 'y2',
+            line = list(color = '#dc2626', width = 2.5), marker = list(size = 7)) %>%
   layout(
-    title = list(text = "<b>Brooklyn: PM2.5 vs Asthma ED Visits</b>", font = list(size = 18)),
-    xaxis = list(title = "Year", titlefont = list(size = 14)),
-    yaxis = list(
-      title = "PM2.5 (μg/m³)",
-      titlefont = list(size = 14, color = '#f59e0b'),
-      tickfont = list(color = '#f59e0b')
-    ),
-    yaxis2 = list(
-      title = "Asthma Rate (per 10,000)",
-      titlefont = list(size = 14, color = '#dc2626'),
-      tickfont = list(color = '#dc2626'),
-      overlaying = 'y',
-      side = 'right'
-    ),
-    margin = list(l = 80, r = 80, t = 80, b = 60),
+    title = list(text = "<b>Brooklyn: PM2.5 vs Asthma ED Visits</b>", font = list(size = 15)),
+    xaxis = list(title = "Year", titlefont = list(size = 12)),
+    yaxis = list(title = "PM2.5 (μg/m³)", titlefont = list(size = 12, color = '#f59e0b'), tickfont = list(color = '#f59e0b')),
+    yaxis2 = list(title = "Asthma Rate (per 10,000)", titlefont = list(size = 12, color = '#dc2626'), 
+                  tickfont = list(color = '#dc2626'), overlaying = 'y', side = 'right'),
+    margin = list(l = 60, r = 60, t = 50, b = 40),
     hovermode = 'x unified'
   )
 ```
 
-#### Queens
+### Queens
 
-```{r queens-dual}
+```{r queens-dual, fig.height=3}
 queens_data <- pm25_asthma_clean %>% filter(borough == "Queens")
 
 plot_ly(queens_data) %>%
-  add_trace(
-    x = ~year, y = ~pm25_annual,
-    type = 'scatter', mode = 'lines+markers',
-    name = 'PM2.5',
-    yaxis = 'y',
-    line = list(color = '#f59e0b', width = 3),
-    marker = list(size = 8, color = '#f59e0b')
-  ) %>%
-  add_trace(
-    x = ~year, y = ~asthma_rate,
-    type = 'scatter', mode = 'lines+markers',
-    name = 'Asthma Rate',
-    yaxis = 'y2',
-    line = list(color = '#dc2626', width = 3),
-    marker = list(size = 8, color = '#dc2626')
-  ) %>%
+  add_trace(x = ~year, y = ~pm25_annual, type = 'scatter', mode = 'lines+markers',
+            name = 'PM2.5', yaxis = 'y',
+            line = list(color = '#f59e0b', width = 2.5), marker = list(size = 7)) %>%
+  add_trace(x = ~year, y = ~asthma_rate, type = 'scatter', mode = 'lines+markers',
+            name = 'Asthma Rate', yaxis = 'y2',
+            line = list(color = '#dc2626', width = 2.5), marker = list(size = 7)) %>%
   layout(
-    title = list(text = "<b>Queens: PM2.5 vs Asthma ED Visits</b>", font = list(size = 18)),
-    xaxis = list(title = "Year", titlefont = list(size = 14)),
-    yaxis = list(
-      title = "PM2.5 (μg/m³)",
-      titlefont = list(size = 14, color = '#f59e0b'),
-      tickfont = list(color = '#f59e0b')
-    ),
-    yaxis2 = list(
-      title = "Asthma Rate (per 10,000)",
-      titlefont = list(size = 14, color = '#dc2626'),
-      tickfont = list(color = '#dc2626'),
-      overlaying = 'y',
-      side = 'right'
-    ),
-    margin = list(l = 80, r = 80, t = 80, b = 60),
+    title = list(text = "<b>Queens: PM2.5 vs Asthma ED Visits</b>", font = list(size = 15)),
+    xaxis = list(title = "Year", titlefont = list(size = 12)),
+    yaxis = list(title = "PM2.5 (μg/m³)", titlefont = list(size = 12, color = '#f59e0b'), tickfont = list(color = '#f59e0b')),
+    yaxis2 = list(title = "Asthma Rate (per 10,000)", titlefont = list(size = 12, color = '#dc2626'), 
+                  tickfont = list(color = '#dc2626'), overlaying = 'y', side = 'right'),
+    margin = list(l = 60, r = 60, t = 50, b = 40),
     hovermode = 'x unified'
   )
 ```
 
-#### Staten Island
+### Staten Island
 
-```{r staten-island-dual}
+```{r staten-dual, fig.height=3}
 staten_data <- pm25_asthma_clean %>% filter(borough == "Staten Island")
 
 plot_ly(staten_data) %>%
-  add_trace(
-    x = ~year, y = ~pm25_annual,
-    type = 'scatter', mode = 'lines+markers',
-    name = 'PM2.5',
-    yaxis = 'y',
-    line = list(color = '#f59e0b', width = 3),
-    marker = list(size = 8, color = '#f59e0b')
-  ) %>%
-  add_trace(
-    x = ~year, y = ~asthma_rate,
-    type = 'scatter', mode = 'lines+markers',
-    name = 'Asthma Rate',
-    yaxis = 'y2',
-    line = list(color = '#dc2626', width = 3),
-    marker = list(size = 8, color = '#dc2626')
-  ) %>%
+  add_trace(x = ~year, y = ~pm25_annual, type = 'scatter', mode = 'lines+markers',
+            name = 'PM2.5', yaxis = 'y',
+            line = list(color = '#f59e0b', width = 2.5), marker = list(size = 7)) %>%
+  add_trace(x = ~year, y = ~asthma_rate, type = 'scatter', mode = 'lines+markers',
+            name = 'Asthma Rate', yaxis = 'y2',
+            line = list(color = '#dc2626', width = 2.5), marker = list(size = 7)) %>%
   layout(
-    title = list(text = "<b>Staten Island: PM2.5 vs Asthma ED Visits</b>", font = list(size = 18)),
-    xaxis = list(title = "Year", titlefont = list(size = 14)),
-    yaxis = list(
-      title = "PM2.5 (μg/m³)",
-      titlefont = list(size = 14, color = '#f59e0b'),
-      tickfont = list(color = '#f59e0b')
-    ),
-    yaxis2 = list(
-      title = "Asthma Rate (per 10,000)",
-      titlefont = list(size = 14, color = '#dc2626'),
-      tickfont = list(color = '#dc2626'),
-      overlaying = 'y',
-      side = 'right'
-    ),
-    margin = list(l = 80, r = 80, t = 80, b = 60),
+    title = list(text = "<b>Staten Island: PM2.5 vs Asthma ED Visits</b>", font = list(size = 15)),
+    xaxis = list(title = "Year", titlefont = list(size = 12)),
+    yaxis = list(title = "PM2.5 (μg/m³)", titlefont = list(size = 12, color = '#f59e0b'), tickfont = list(color = '#f59e0b')),
+    yaxis2 = list(title = "Asthma Rate (per 10,000)", titlefont = list(size = 12, color = '#dc2626'), 
+                  tickfont = list(color = '#dc2626'), overlaying = 'y', side = 'right'),
+    margin = list(l = 60, r = 60, t = 50, b = 40),
     hovermode = 'x unified'
   )
 ```
 
 ---
 
-<div class="section-header">
-<h1>🔗 Association Analysis</h1>
-</div>
+# Association Analysis
 
 ## PM2.5 vs Asthma Rate Correlation
 
 ```{r correlation-scatter}
-# Calculate correlation by borough
 cor_by_borough <- pm25_asthma_clean %>%
   group_by(borough) %>%
-  summarise(
-    correlation = cor(pm25_annual, asthma_rate, use = "complete.obs"),
-    .groups = 'drop'
-  ) %>%
-  arrange(desc(correlation))
+  summarise(correlation = cor(pm25_annual, asthma_rate, use = "complete.obs"), .groups = 'drop')
 
-# Create scatter plot
 plot_ly(pm25_asthma_clean, x = ~pm25_annual, y = ~asthma_rate, 
         color = ~borough, colors = viridis(5),
         type = 'scatter', mode = 'markers',
-        marker = list(size = 10, opacity = 0.7),
+        marker = list(size = 8, opacity = 0.7),
         text = ~paste('Year:', year, '<br>Borough:', borough,
                      '<br>PM2.5:', round(pm25_annual, 1),
                      '<br>Asthma Rate:', round(asthma_rate, 1)),
         hoverinfo = 'text') %>%
   layout(
-    title = list(
-      text = "<b>PM2.5 vs Asthma ED Visit Rates</b>",
-      font = list(size = 18)
-    ),
-    xaxis = list(
-      title = "PM2.5 (μg/m³)",
-      titlefont = list(size = 14),
-      tickfont = list(size = 12)
-    ),
-    yaxis = list(
-      title = "Asthma ED Visit Rate (per 10,000)",
-      titlefont = list(size = 14),
-      tickfont = list(size = 12)
-    ),
-    legend = list(
-      title = list(text = '<b>Borough</b>'),
-      font = list(size = 11)
-    ),
-    margin = list(l = 80, r = 100, t = 80, b = 60),
+    title = list(text = "<b>PM2.5 vs Asthma ED Visit Rates</b>", font = list(size = 16)),
+    xaxis = list(title = "PM2.5 (μg/m³)", titlefont = list(size = 13)),
+    yaxis = list(title = "Asthma ED Visit Rate (per 10,000)", titlefont = list(size = 13)),
+    legend = list(title = list(text = '<b>Borough</b>'), font = list(size = 10)),
+    margin = list(l = 60, r = 80, t = 60, b = 50),
     autosize = TRUE
   )
 ```
 
-### Correlation Summary Table
+### Correlation Summary
 
 ```{r correlation-table}
 cor_table <- pm25_asthma_clean %>%
@@ -752,14 +502,7 @@ cor_table <- pm25_asthma_clean %>%
   ) %>%
   arrange(desc(`Correlation (r)`))
 
-datatable(cor_table, 
-          options = list(pageLength = 5, dom = 't'),
-          rownames = FALSE) %>%
-  formatStyle('Correlation (r)',
-              background = styleColorBar(cor_table$`Correlation (r)`, '#dbeafe'),
-              backgroundSize = '100% 90%',
-              backgroundRepeat = 'no-repeat',
-              backgroundPosition = 'center')
+datatable(cor_table, options = list(pageLength = 5, dom = 't'), rownames = FALSE)
 ```
 
 <div class="key-finding">
@@ -768,30 +511,24 @@ datatable(cor_table,
 
 ---
 
-<div class="section-header">
-<h1>🗺️ Borough Comparison</h1>
-</div>
+# Borough Comparison
 
-## Borough-Level Trends {.tabset .tabset-pills}
+## Geographic Patterns {.tabset .tabset-pills}
 
 ### PM2.5 Trends
 
-```{r borough-pm25-facet, fig.height=6, fig.width=12}
+```{r borough-pm25-facet, fig.height=4.5}
 ggplot(pm25_asthma_clean, aes(x = year, y = pm25_annual, color = borough)) +
   geom_line(size = 1.2) +
   geom_point(size = 2.5) +
   facet_wrap(~ borough, ncol = 2, scales = "free_y") +
   scale_color_viridis_d() +
-  labs(
-    title = "PM2.5 Concentration Trends by Borough (2009-2023)",
-    x = "Year",
-    y = "PM2.5 (μg/m³)",
-    color = "Borough"
-  ) +
-  theme_minimal(base_size = 14) +
+  labs(title = "PM2.5 Concentration Trends by Borough (2009-2023)",
+       x = "Year", y = "PM2.5 (μg/m³)") +
+  theme_minimal(base_size = 12) +
   theme(
-    plot.title = element_text(face = "bold", size = 16, hjust = 0.5),
-    strip.text = element_text(face = "bold", size = 12),
+    plot.title = element_text(face = "bold", size = 14, hjust = 0.5),
+    strip.text = element_text(face = "bold", size = 11),
     strip.background = element_rect(fill = "gray90", color = NA),
     legend.position = "none",
     panel.grid.minor = element_blank()
@@ -800,22 +537,18 @@ ggplot(pm25_asthma_clean, aes(x = year, y = pm25_annual, color = borough)) +
 
 ### Asthma Trends
 
-```{r borough-asthma-facet, fig.height=6, fig.width=12}
+```{r borough-asthma-facet, fig.height=4.5}
 ggplot(pm25_asthma_clean, aes(x = year, y = asthma_rate, color = borough)) +
   geom_line(size = 1.2) +
   geom_point(size = 2.5) +
   facet_wrap(~ borough, ncol = 2, scales = "free_y") +
   scale_color_viridis_d(option = "plasma") +
-  labs(
-    title = "Asthma ED Visit Rate Trends by Borough (2009-2023)",
-    x = "Year",
-    y = "Asthma ED Visit Rate (per 10,000)",
-    color = "Borough"
-  ) +
-  theme_minimal(base_size = 14) +
+  labs(title = "Asthma ED Visit Rate Trends by Borough (2009-2023)",
+       x = "Year", y = "Asthma ED Visit Rate (per 10,000)") +
+  theme_minimal(base_size = 12) +
   theme(
-    plot.title = element_text(face = "bold", size = 16, hjust = 0.5),
-    strip.text = element_text(face = "bold", size = 12),
+    plot.title = element_text(face = "bold", size = 14, hjust = 0.5),
+    strip.text = element_text(face = "bold", size = 11),
     strip.background = element_rect(fill = "gray90", color = NA),
     legend.position = "none",
     panel.grid.minor = element_blank()
@@ -824,66 +557,49 @@ ggplot(pm25_asthma_clean, aes(x = year, y = asthma_rate, color = borough)) +
 
 ### Association by Borough
 
-```{r borough-scatter-facet, fig.height=6, fig.width=12}
+```{r borough-scatter-facet, fig.height=4.5}
 ggplot(pm25_asthma_clean, aes(x = pm25_annual, y = asthma_rate)) +
-  geom_point(aes(color = borough), size = 3, alpha = 0.7) +
-  geom_smooth(method = "lm", se = TRUE, color = "#2563eb", size = 1) +
+  geom_point(aes(color = borough), size = 2.5, alpha = 0.7) +
+  geom_smooth(method = "lm", se = TRUE, color = "#2563eb", size = 0.8) +
   facet_wrap(~ borough, ncol = 2, scales = "free") +
   scale_color_viridis_d() +
-  labs(
-    title = "PM2.5 vs Asthma Rate Relationship by Borough",
-    x = "PM2.5 (μg/m³)",
-    y = "Asthma ED Visit Rate (per 10,000)",
-    color = "Borough"
-  ) +
-  theme_minimal(base_size = 14) +
+  labs(title = "PM2.5 vs Asthma Rate Relationship by Borough",
+       x = "PM2.5 (μg/m³)", y = "Asthma ED Visit Rate (per 10,000)") +
+  theme_minimal(base_size = 12) +
   theme(
-    plot.title = element_text(face = "bold", size = 16, hjust = 0.5),
-    strip.text = element_text(face = "bold", size = 12),
+    plot.title = element_text(face = "bold", size = 14, hjust = 0.5),
+    strip.text = element_text(face = "bold", size = 11),
     strip.background = element_rect(fill = "gray90", color = NA),
     legend.position = "none",
     panel.grid.minor = element_blank()
   )
 ```
 
-### Side-by-Side Comparison
+### 2023 Comparison
 
-```{r borough-comparison, fig.height=5.5, fig.width=14}
-# 2023 comparison
+```{r borough-comparison, fig.height=3.5, fig.width=12}
 data_2023 <- pm25_asthma_clean %>% filter(year == 2023)
 
 p_pm25 <- ggplot(data_2023, aes(x = reorder(borough, -pm25_annual), y = pm25_annual, fill = borough)) +
   geom_col(alpha = 0.8) +
-  geom_text(aes(label = round(pm25_annual, 1)), vjust = -0.5, size = 5, fontface = "bold") +
+  geom_text(aes(label = round(pm25_annual, 1)), vjust = -0.5, size = 4, fontface = "bold") +
   scale_fill_viridis_d() +
-  labs(
-    title = "PM2.5 Levels (2023)",
-    x = NULL,
-    y = "PM2.5 (μg/m³)"
-  ) +
-  theme_minimal(base_size = 13) +
-  theme(
-    plot.title = element_text(face = "bold", size = 14, hjust = 0.5),
-    legend.position = "none",
-    axis.text.x = element_text(angle = 45, hjust = 1)
-  ) +
+  labs(title = "PM2.5 Levels (2023)", x = NULL, y = "PM2.5 (μg/m³)") +
+  theme_minimal(base_size = 11) +
+  theme(plot.title = element_text(face = "bold", size = 12, hjust = 0.5),
+        legend.position = "none",
+        axis.text.x = element_text(angle = 45, hjust = 1)) +
   ylim(0, max(data_2023$pm25_annual) * 1.15)
 
 p_asthma <- ggplot(data_2023, aes(x = reorder(borough, -asthma_rate), y = asthma_rate, fill = borough)) +
   geom_col(alpha = 0.8) +
-  geom_text(aes(label = round(asthma_rate, 1)), vjust = -0.5, size = 5, fontface = "bold") +
+  geom_text(aes(label = round(asthma_rate, 1)), vjust = -0.5, size = 4, fontface = "bold") +
   scale_fill_viridis_d(option = "plasma") +
-  labs(
-    title = "Asthma ED Rates (2023)",
-    x = NULL,
-    y = "Asthma Rate (per 10,000)"
-  ) +
-  theme_minimal(base_size = 13) +
-  theme(
-    plot.title = element_text(face = "bold", size = 14, hjust = 0.5),
-    legend.position = "none",
-    axis.text.x = element_text(angle = 45, hjust = 1)
-  ) +
+  labs(title = "Asthma ED Rates (2023)", x = NULL, y = "Asthma Rate (per 10,000)") +
+  theme_minimal(base_size = 11) +
+  theme(plot.title = element_text(face = "bold", size = 12, hjust = 0.5),
+        legend.position = "none",
+        axis.text.x = element_text(angle = 45, hjust = 1)) +
   ylim(0, max(data_2023$asthma_rate) * 1.15)
 
 p_pm25 + p_asthma
@@ -891,66 +607,47 @@ p_pm25 + p_asthma
 
 ---
 
-<div class="section-header">
-<h1>🌡️ Seasonal Patterns</h1>
-</div>
+# Seasonal Patterns
 
-## Summer vs Winter Patterns
+## Summer vs Winter
 
-```{r seasonal-boxplot, fig.height=4.5, fig.width=12}
+```{r seasonal-boxplot, fig.height=3.5}
 seasonal_long <- pm25_asthma_clean %>%
   select(borough, year, pm25_summer, pm25_winter) %>%
-  pivot_longer(
-    cols = c(pm25_summer, pm25_winter),
-    names_to = "season",
-    values_to = "pm25"
-  ) %>%
-  mutate(
-    season = ifelse(season == "pm25_summer", "Summer", "Winter")
-  )
+  pivot_longer(cols = c(pm25_summer, pm25_winter), names_to = "season", values_to = "pm25") %>%
+  mutate(season = ifelse(season == "pm25_summer", "Summer", "Winter"))
 
 ggplot(seasonal_long, aes(x = borough, y = pm25, fill = season)) +
-  geom_boxplot(alpha = 0.8, outlier.shape = 21, outlier.size = 2) +
+  geom_boxplot(alpha = 0.8, outlier.shape = 21, outlier.size = 1.5) +
   scale_fill_manual(values = c("Summer" = "#fbbf24", "Winter" = "#60a5fa")) +
-  labs(
-    title = "Seasonal PM2.5 Distribution by Borough (2009-2023)",
-    x = "Borough",
-    y = "PM2.5 (μg/m³)",
-    fill = "Season"
-  ) +
-  theme_minimal(base_size = 14) +
+  labs(title = "Seasonal PM2.5 Distribution by Borough (2009-2023)",
+       x = "Borough", y = "PM2.5 (μg/m³)", fill = "Season") +
+  theme_minimal(base_size = 12) +
   theme(
-    plot.title = element_text(face = "bold", size = 16, hjust = 0.5),
+    plot.title = element_text(face = "bold", size = 14, hjust = 0.5),
     legend.position = "top",
-    legend.title = element_text(face = "bold", size = 13),
-    axis.text.x = element_text(angle = 45, hjust = 1, size = 12),
+    legend.title = element_text(face = "bold"),
+    axis.text.x = element_text(angle = 45, hjust = 1),
     panel.grid.minor = element_blank()
   )
 ```
 
 ## Seasonal Trends Over Time
 
-```{r seasonal-trends, fig.height=6, fig.width=13}
+```{r seasonal-trends, fig.height=4.5}
 ggplot(df_long, aes(x = year, y = pm25_value, color = pm25_type, group = pm25_type)) +
   geom_line(size = 1) +
-  geom_point(size = 2) +
+  geom_point(size = 1.5) +
   facet_wrap(~ borough, ncol = 2, scales = "free_y") +
-  scale_color_manual(
-    values = c("Annual" = "#667eea", "Summer" = "#fbbf24", "Winter" = "#60a5fa")
-  ) +
-  labs(
-    title = "Seasonal PM2.5 Trends by Borough (2009-2023)",
-    x = "Year",
-    y = "PM2.5 (μg/m³)",
-    color = "Measurement"
-  ) +
-  theme_minimal(base_size = 13) +
+  scale_color_manual(values = c("Annual" = "#667eea", "Summer" = "#fbbf24", "Winter" = "#60a5fa")) +
+  labs(title = "Seasonal PM2.5 Trends by Borough (2009-2023)",
+       x = "Year", y = "PM2.5 (μg/m³)", color = "Measurement") +
+  theme_minimal(base_size = 11) +
   theme(
-    plot.title = element_text(face = "bold", size = 16, hjust = 0.5),
-    strip.text = element_text(face = "bold", size = 12),
+    plot.title = element_text(face = "bold", size = 14, hjust = 0.5),
+    strip.text = element_text(face = "bold", size = 10),
     strip.background = element_rect(fill = "gray90", color = NA),
     legend.position = "top",
-    legend.title = element_text(face = "bold"),
     panel.grid.minor = element_blank()
   )
 ```
@@ -961,15 +658,13 @@ ggplot(df_long, aes(x = year, y = pm25_value, color = pm25_type, group = pm25_ty
 
 ---
 
-<div class="section-header">
-<h1>🔥 Heatmap Analysis</h1>
-</div>
+# Heatmap Analysis
 
 ## Interactive Heatmaps {.tabset .tabset-pills}
 
 ### Annual PM2.5
 
-```{r heatmap-pm25-annual}
+```{r heatmap-pm25, fig.height=3.5}
 heatmap_data_pm25 <- pm25_asthma_clean %>%
   select(year, borough, pm25_annual) %>%
   pivot_wider(names_from = borough, values_from = pm25_annual) %>%
@@ -984,19 +679,16 @@ plot_ly(
   hovertemplate = 'Borough: %{x}<br>Year: %{y}<br>PM2.5: %{z:.1f} μg/m³<extra></extra>'
 ) %>%
   layout(
-    title = list(
-      text = "<b>Annual PM2.5 Concentrations (2009-2023)</b>",
-      font = list(size = 18)
-    ),
-    xaxis = list(title = "Borough", titlefont = list(size = 14)),
-    yaxis = list(title = "Year", titlefont = list(size = 14)),
-    margin = list(l = 80, r = 100, t = 80, b = 80)
+    title = list(text = "<b>Annual PM2.5 Concentrations (2009-2023)</b>", font = list(size = 15)),
+    xaxis = list(title = "Borough", titlefont = list(size = 12)),
+    yaxis = list(title = "Year", titlefont = list(size = 12)),
+    margin = list(l = 60, r = 80, t = 60, b = 60)
   )
 ```
 
 ### Asthma Rate
 
-```{r heatmap-asthma}
+```{r heatmap-asthma, fig.height=3.5}
 heatmap_data_asthma <- pm25_asthma_clean %>%
   select(year, borough, asthma_rate) %>%
   pivot_wider(names_from = borough, values_from = asthma_rate) %>%
@@ -1011,19 +703,16 @@ plot_ly(
   hovertemplate = 'Borough: %{x}<br>Year: %{y}<br>Asthma Rate: %{z:.1f} per 10,000<extra></extra>'
 ) %>%
   layout(
-    title = list(
-      text = "<b>Asthma ED Visit Rates (2009-2023)</b>",
-      font = list(size = 18)
-    ),
-    xaxis = list(title = "Borough", titlefont = list(size = 14)),
-    yaxis = list(title = "Year", titlefont = list(size = 14)),
-    margin = list(l = 80, r = 100, t = 80, b = 80)
+    title = list(text = "<b>Asthma ED Visit Rates (2009-2023)</b>", font = list(size = 15)),
+    xaxis = list(title = "Borough", titlefont = list(size = 12)),
+    yaxis = list(title = "Year", titlefont = list(size = 12)),
+    margin = list(l = 60, r = 80, t = 60, b = 60)
   )
 ```
 
 ### Summer PM2.5
 
-```{r heatmap-summer}
+```{r heatmap-summer, fig.height=3.5}
 heatmap_data_summer <- pm25_asthma_clean %>%
   select(year, borough, pm25_summer) %>%
   pivot_wider(names_from = borough, values_from = pm25_summer) %>%
@@ -1038,19 +727,16 @@ plot_ly(
   hovertemplate = 'Borough: %{x}<br>Year: %{y}<br>Summer PM2.5: %{z:.1f} μg/m³<extra></extra>'
 ) %>%
   layout(
-    title = list(
-      text = "<b>Summer PM2.5 Concentrations (2009-2023)</b>",
-      font = list(size = 18)
-    ),
-    xaxis = list(title = "Borough", titlefont = list(size = 14)),
-    yaxis = list(title = "Year", titlefont = list(size = 14)),
-    margin = list(l = 80, r = 100, t = 80, b = 80)
+    title = list(text = "<b>Summer PM2.5 Concentrations (2009-2023)</b>", font = list(size = 15)),
+    xaxis = list(title = "Borough", titlefont = list(size = 12)),
+    yaxis = list(title = "Year", titlefont = list(size = 12)),
+    margin = list(l = 60, r = 80, t = 60, b = 60)
   )
 ```
 
 ### Winter PM2.5
 
-```{r heatmap-winter}
+```{r heatmap-winter, fig.height=3.5}
 heatmap_data_winter <- pm25_asthma_clean %>%
   select(year, borough, pm25_winter) %>%
   pivot_wider(names_from = borough, values_from = pm25_winter) %>%
@@ -1065,19 +751,16 @@ plot_ly(
   hovertemplate = 'Borough: %{x}<br>Year: %{y}<br>Winter PM2.5: %{z:.1f} μg/m³<extra></extra>'
 ) %>%
   layout(
-    title = list(
-      text = "<b>Winter PM2.5 Concentrations (2009-2023)</b>",
-      font = list(size = 18)
-    ),
-    xaxis = list(title = "Borough", titlefont = list(size = 14)),
-    yaxis = list(title = "Year", titlefont = list(size = 14)),
-    margin = list(l = 80, r = 100, t = 80, b = 80)
+    title = list(text = "<b>Winter PM2.5 Concentrations (2009-2023)</b>", font = list(size = 15)),
+    xaxis = list(title = "Borough", titlefont = list(size = 12)),
+    yaxis = list(title = "Year", titlefont = list(size = 12)),
+    margin = list(l = 60, r = 80, t = 60, b = 60)
   )
 ```
 
 ### Seasonal Difference
 
-```{r heatmap-difference}
+```{r heatmap-difference, fig.height=3.5}
 heatmap_data_diff <- pm25_asthma_clean %>%
   select(year, borough, pm25_diff) %>%
   pivot_wider(names_from = borough, values_from = pm25_diff) %>%
@@ -1092,21 +775,16 @@ plot_ly(
   hovertemplate = 'Borough: %{x}<br>Year: %{y}<br>Difference: %{z:.1f} μg/m³<extra></extra>'
 ) %>%
   layout(
-    title = list(
-      text = "<b>Seasonal Difference (Winter - Summer) PM2.5</b>",
-      font = list(size = 18)
-    ),
-    xaxis = list(title = "Borough", titlefont = list(size = 14)),
-    yaxis = list(title = "Year", titlefont = list(size = 14)),
-    margin = list(l = 80, r = 100, t = 80, b = 80)
+    title = list(text = "<b>Seasonal Difference (Winter - Summer) PM2.5</b>", font = list(size = 15)),
+    xaxis = list(title = "Borough", titlefont = list(size = 12)),
+    yaxis = list(title = "Year", titlefont = list(size = 12)),
+    margin = list(l = 60, r = 80, t = 60, b = 60)
   )
 ```
 
 ---
 
-<div class="section-header">
-<h1>📊 Key Findings & Conclusions</h1>
-</div>
+# Key Findings & Conclusions
 
 ## Major Findings
 
@@ -1146,15 +824,15 @@ plot_ly(
 
 ## Conclusions
 
-1. **Air Quality Progress**: All five NYC boroughs demonstrated substantial reductions in PM2.5 concentrations between 2009 and 2023, with Manhattan showing the most dramatic improvement (5.3 μg/m³ decrease).
+1. **Air Quality Progress**: All five NYC boroughs demonstrated substantial reductions in PM2.5 concentrations between 2009 and 2023, with Manhattan showing the most dramatic improvement.
 
 2. **Persistent Health Disparities**: Despite overall improvements, the Bronx continues to experience asthma ED visit rates 2-4 times higher than other boroughs, indicating environmental health inequities requiring targeted intervention.
 
 3. **Strong PM2.5-Asthma Correlation**: Positive associations between PM2.5 levels and asthma ED visits were observed across all boroughs, supporting the causal relationship between air pollution and respiratory health outcomes.
 
-4. **Changing Seasonal Patterns**: Historical winter peaks in PM2.5 have diminished in recent years, with summer concentrations becoming relatively more prominent, potentially due to changing weather patterns or emission sources.
+4. **Changing Seasonal Patterns**: Historical winter peaks in PM2.5 have diminished in recent years, with summer concentrations becoming relatively more prominent.
 
-5. **Geographic Variations**: Significant borough-level differences in both PM2.5 concentrations and asthma rates suggest that local factors (traffic density, industrial activity, green space) play important roles beyond citywide air quality trends.
+5. **Geographic Variations**: Significant borough-level differences in both PM2.5 concentrations and asthma rates suggest that local factors play important roles beyond citywide air quality trends.
 
 ## Public Health Implications
 
@@ -1171,10 +849,10 @@ plot_ly(
 
 <div class="footer-box">
 
-**📊 Data Sources:**
+**Data Sources:**
 - PM2.5 Data: NYC Open Data
 - Asthma ED Data: NYC Department of Health and Mental Hygiene (DOHMH)
 
-**🏛️ Institution:** Columbia University Mailman School of Public Health | P8105 Data Science I
+**Institution:** Columbia University Mailman School of Public Health | P8105 Data Science I
 
 </div>
