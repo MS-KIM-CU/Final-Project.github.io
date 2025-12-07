@@ -330,11 +330,10 @@ Goes beyond pure environmental health analysis to examine:
 <h3 style="color: #2563eb;">2-Minute Project Overview</h3>
 <p style="color: #64748b; margin: 15px 0;">Watch our team present the key findings and methodology</p>
 
-<!-- Will replace YOUR_VIDEO_ID with actual YouTube video ID -->
 <div style="max-width: 800px; margin: 20px auto;">
 <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
 <iframe 
-  src="https://www.youtube.com/embed/YOUR_VIDEO_ID" 
+  src="https://www.youtube.com/watch?v=NjdZtTC144E" 
   style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"
   allowfullscreen>
 </iframe>
