@@ -25,7 +25,6 @@ body {
   line-height: 1.6;
 }
 
-/* Only style section h1 headers (exclude document title) */
 h1:not(.title) {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white !important;
@@ -50,7 +49,6 @@ h2, h3, h4, h5, h6 {
   font-weight: 600;
 }
 
-/* Author styling */
 h4.author {
   color: #64748b;
   font-size: 1.1em;
@@ -139,7 +137,6 @@ img,
 .plotly,
 .html-widget {
   max-width: 100%;
-  height: auto;
 }
 
 .row {
@@ -183,9 +180,7 @@ knitr::opts_chunk$set(
   message = FALSE,
   warning = FALSE,
   fig.width = 10,
-  fig.height = 3.5,
-  out.width = "100%",
-  dpi = 300
+  fig.height = 6
 )
 
 library(tidyverse)
@@ -271,12 +266,7 @@ borough_summary <- pm25_asthma_clean %>%
 
 datatable(borough_summary, 
           options = list(pageLength = 5, dom = 't'),
-          rownames = FALSE) %>%
-  formatStyle('Mean Asthma Rate',
-              background = styleColorBar(borough_summary$`Mean Asthma Rate`, '#fecaca'),
-              backgroundSize = '100% 90%',
-              backgroundRepeat = 'no-repeat',
-              backgroundPosition = 'center')
+          rownames = FALSE)
 ```
 
 ---
@@ -285,7 +275,7 @@ datatable(borough_summary,
 
 ## PM2.5 Trends Over Time
 
-```{r pm25-timeseries}
+```{r pm25-timeseries, fig.height=5}
 p1 <- pm25_asthma_clean %>%
   plot_ly(x = ~year, y = ~pm25_annual, color = ~borough,
           type = 'scatter', mode = 'lines+markers',
@@ -302,8 +292,7 @@ p1 <- pm25_asthma_clean %>%
     yaxis = list(title = "PM2.5 (μg/m³)", titlefont = list(size = 13), tickfont = list(size = 11)),
     hovermode = 'closest',
     legend = list(title = list(text = '<b>Borough</b>'), x = 1.02, y = 1, font = list(size = 10)),
-    margin = list(l = 60, r = 100, t = 60, b = 50),
-    autosize = TRUE
+    margin = list(l = 60, r = 100, t = 60, b = 50)
   )
 
 p1
@@ -315,7 +304,7 @@ p1
 
 ## Asthma ED Visit Trends
 
-```{r asthma-timeseries}
+```{r asthma-timeseries, fig.height=4.5}
 p2 <- pm25_asthma_clean %>%
   plot_ly(x = ~year, y = ~asthma_rate, color = ~borough,
           type = 'scatter', mode = 'lines+markers',
@@ -333,6 +322,7 @@ p2 <- pm25_asthma_clean %>%
     hovermode = 'closest',
     legend = list(title = list(text = '<b>Borough</b>'), x = 1.02, y = 1, font = list(size = 10)),
     margin = list(l = 60, r = 100, t = 60, b = 50),
+    height = 350,
     autosize = TRUE
   )
 
@@ -347,7 +337,7 @@ p2
 
 ### Manhattan
 
-```{r manhattan-dual, fig.height=3}
+```{r manhattan-dual}
 manhattan_data <- pm25_asthma_clean %>% filter(borough == "Manhattan")
 
 plot_ly(manhattan_data) %>%
@@ -370,7 +360,7 @@ plot_ly(manhattan_data) %>%
 
 ### Bronx
 
-```{r bronx-dual, fig.height=3}
+```{r bronx-dual}
 bronx_data <- pm25_asthma_clean %>% filter(borough == "Bronx")
 
 plot_ly(bronx_data) %>%
@@ -393,7 +383,7 @@ plot_ly(bronx_data) %>%
 
 ### Brooklyn
 
-```{r brooklyn-dual, fig.height=3}
+```{r brooklyn-dual}
 brooklyn_data <- pm25_asthma_clean %>% filter(borough == "Brooklyn")
 
 plot_ly(brooklyn_data) %>%
@@ -416,7 +406,7 @@ plot_ly(brooklyn_data) %>%
 
 ### Queens
 
-```{r queens-dual, fig.height=3}
+```{r queens-dual}
 queens_data <- pm25_asthma_clean %>% filter(borough == "Queens")
 
 plot_ly(queens_data) %>%
@@ -439,7 +429,7 @@ plot_ly(queens_data) %>%
 
 ### Staten Island
 
-```{r staten-dual, fig.height=3}
+```{r staten-dual}
 staten_data <- pm25_asthma_clean %>% filter(borough == "Staten Island")
 
 plot_ly(staten_data) %>%
@@ -484,8 +474,7 @@ plot_ly(pm25_asthma_clean, x = ~pm25_annual, y = ~asthma_rate,
     xaxis = list(title = "PM2.5 (μg/m³)", titlefont = list(size = 13)),
     yaxis = list(title = "Asthma ED Visit Rate (per 10,000)", titlefont = list(size = 13)),
     legend = list(title = list(text = '<b>Borough</b>'), font = list(size = 10)),
-    margin = list(l = 60, r = 80, t = 60, b = 50),
-    autosize = TRUE
+    margin = list(l = 60, r = 80, t = 60, b = 50)
   )
 ```
 
