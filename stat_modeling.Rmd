@@ -11,6 +11,7 @@ output:
     df_print: paged
 ---
 
+```{=html}
 <style>
 .main-container {
   max-width: 1400px;
@@ -119,6 +120,7 @@ h2, h3, h4, h5, h6 {
   margin-top: 40px;
 }
 </style>
+```
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
@@ -148,7 +150,7 @@ merged <- read_csv("data/merged_pm25_asthma.csv") %>%
   )
 ```
 
----
+------------------------------------------------------------------------
 
 # Overview
 
@@ -175,7 +177,7 @@ summary_stats <- tibble(
 kable(summary_stats, align = c("l", "l"))
 ```
 
----
+------------------------------------------------------------------------
 
 # Exploratory Analysis {.tabset .tabset-pills}
 
@@ -202,40 +204,44 @@ plot_ly(merged, x = ~pm25_annual, y = ~asthma_rate, color = ~borough,
   )
 ```
 
-<div class="key-finding">
+::: key-finding
 **Pattern:** Positive relationship between PM2.5 and asthma rates across all boroughs, with the Bronx showing consistently elevated asthma rates.
-</div>
+:::
 
 ## Temporal Trends
 
-```{r time-series, fig.height=5}
-p1 <- plot_ly(merged, x = ~year, y = ~pm25_annual, color = ~borough,
-              type = 'scatter', mode = 'lines+markers',
-              colors = viridis(5),
-              line = list(width = 2),
-              marker = list(size = 5)) %>%
+### PM2.5 Over Time
+
+```{r time-series-pm25, fig.height=5}
+plot_ly(merged, x = ~year, y = ~pm25_annual, color = ~borough,
+        type = 'scatter', mode = 'lines+markers',
+        colors = viridis(5),
+        line = list(width = 2),
+        marker = list(size = 5)) %>%
   layout(
-    title = list(text = "<b>PM2.5 Over Time</b>", font = list(size = 15)),
+    title = list(text = "<b>PM2.5 Concentrations Over Time</b>", font = list(size = 15)),
     xaxis = list(title = "Year", titlefont = list(size = 12)),
     yaxis = list(title = "PM2.5 (μg/m³)", titlefont = list(size = 12)),
-    showlegend = FALSE,
-    margin = list(l = 60, r = 50, t = 50, b = 40)
+    legend = list(title = list(text = '<b>Borough</b>'), font = list(size = 10)),
+    margin = list(l = 60, r = 100, t = 50, b = 40)
   )
+```
 
-p2 <- plot_ly(merged, x = ~year, y = ~asthma_rate, color = ~borough,
-              type = 'scatter', mode = 'lines+markers',
-              colors = viridis(5, option = "plasma"),
-              line = list(width = 2),
-              marker = list(size = 5)) %>%
+### Asthma Rates Over Time
+
+```{r time-series-asthma, fig.height=5}
+plot_ly(merged, x = ~year, y = ~asthma_rate, color = ~borough,
+        type = 'scatter', mode = 'lines+markers',
+        colors = viridis(5, option = "plasma"),
+        line = list(width = 2),
+        marker = list(size = 5)) %>%
   layout(
-    title = list(text = "<b>Asthma Rates Over Time</b>", font = list(size = 15)),
+    title = list(text = "<b>Asthma ED Visit Rates Over Time</b>", font = list(size = 15)),
     xaxis = list(title = "Year", titlefont = list(size = 12)),
     yaxis = list(title = "Asthma Rate (per 10,000)", titlefont = list(size = 12)),
     legend = list(title = list(text = '<b>Borough</b>'), font = list(size = 10)),
     margin = list(l = 60, r = 100, t = 50, b = 40)
   )
-
-subplot(p1, p2, nrows = 2, shareX = FALSE, titleY = TRUE)
 ```
 
 ## Seasonal Patterns
@@ -294,7 +300,11 @@ p_asthma <- ggplot(merged, aes(x = year, y = borough, fill = asthma_rate)) +
 p_pm25 + p_asthma
 ```
 
----
+::: key-finding
+**Heatmap Insights:** These heatmaps reveal spatial and temporal patterns in air quality and health outcomes. PM2.5 concentrations show a consistent decline across all boroughs over the study period, with Manhattan and the Bronx historically showing higher levels. Asthma rates demonstrate sharp disparities, with the Bronx persistently experiencing rates 2-4 times higher than other boroughs despite similar PM2.5 exposure levels, suggesting complex environmental and socioeconomic factors at play.
+:::
+
+------------------------------------------------------------------------
 
 # Regression Models
 
@@ -318,6 +328,8 @@ datatable(
   )
 ```
 
+*Note: Variables with p-values < 0.05 are highlighted in green, indicating statistical significance at 95% confidence level.*
+
 ### Model Summary
 
 ```{r model-lm-stats}
@@ -337,14 +349,14 @@ model_stats <- tibble(
 kable(model_stats, align = c("l", "r"))
 ```
 
-<div class="model-box">
+::: model-box
 **Key Findings:**
 
-- **PM2.5 Effect:** Each 1 μg/m³ increase in PM2.5 is associated with a `r round(coef(model_lm)["pm25_annual"], 2)` increase in asthma ED rate (per 10,000)
-- **Borough Effects:** The Bronx shows significantly higher baseline asthma rates compared to Manhattan
-- **Temporal Trend:** Asthma rates have declined over time, controlling for PM2.5 levels
-- **Model Fit:** R² = `r round(summary(model_lm)$r.squared, 3)`, indicating strong explanatory power
-</div>
+-   **PM2.5 Effect:** Each 1 μg/m³ increase in PM2.5 is associated with a `r round(coef(model_lm)["pm25_annual"], 2)` increase in asthma ED rate (per 10,000)
+-   **Borough Effects:** The Bronx shows significantly higher baseline asthma rates compared to Manhattan
+-   **Temporal Trend:** Asthma rates have declined over time, controlling for PM2.5 levels
+-   **Model Fit:** R² = `r round(summary(model_lm)$r.squared, 3)`, indicating strong explanatory power
+:::
 
 ## Model 2: Negative Binomial Regression
 
@@ -368,14 +380,16 @@ datatable(
     backgroundColor = styleInterval(0.05, c('#dcfce7', 'white'))
   )
 ```
+*Note: Variables with p-values < 0.05 are highlighted in green, indicating statistical significance at 95% confidence level.*
 
-<div class="model-box">
+::: model-box
 **Interpretation:**
 
-- **Negative Binomial** model handles overdispersion in count data better than Poisson
-- **Incidence Rate Ratio (IRR):** A 1-unit increase in PM2.5 is associated with a `r round((exp(coef(model_nb)["pm25_annual"]) - 1) * 100, 1)`% increase in asthma ED rates
-- **Statistical Significance:** PM2.5 remains a highly significant predictor (p < 0.001)
-</div>
+-   **Intercept:** The baseline log(asthma rate) when all predictors are at their reference levels (Brooklyn, year 2009, PM2.5 = 0)
+-   **Negative Binomial** model handles overdispersion in count data better than Poisson
+-   **Incidence Rate Ratio (IRR):** A 1-unit increase in PM2.5 is associated with a `r round((exp(coef(model_nb)["pm25_annual"]) - 1) * 100, 1)`% increase in asthma ED rates
+-   **Statistical Significance:** PM2.5 remains a highly significant predictor (p \< 0.001)
+:::
 
 ## Model 3: Interaction Model
 
@@ -397,6 +411,7 @@ datatable(
     backgroundColor = styleInterval(0.05, c('#dcfce7', 'white'))
   )
 ```
+*Note: Variables with p-values < 0.05 are highlighted in green, indicating statistical significance at 95% confidence level.*
 
 ### Visualization of Interactions
 
@@ -419,16 +434,16 @@ merged %>%
   )
 ```
 
-<div class="model-box">
-**Interaction Effects:**
+::: model-box
+**Key Findings:**
 
-- **Bronx:** Strongest PM2.5-asthma association (steepest slope)
-- **Manhattan & Staten Island:** Weaker associations, suggesting other protective factors
-- **Significant Interactions:** Confirm that PM2.5 impact varies by borough
-- **Environmental Justice:** Disadvantaged communities show greater vulnerability to air pollution
-</div>
+-   **Bronx:** Strongest PM2.5-asthma association (steepest slope)
+-   **Manhattan & Staten Island:** Weaker associations, suggesting other protective factors
+-   **Significant Interactions:** Confirm that PM2.5 impact varies by borough
+-   **Environmental Justice:** Disadvantaged communities show greater vulnerability to air pollution
+:::
 
----
+------------------------------------------------------------------------
 
 # Model Comparison
 
@@ -461,52 +476,39 @@ datatable(
   comparison,
   options = list(pageLength = 5, dom = 't'),
   rownames = FALSE
-) %>%
-  formatStyle(
-    'AIC',
-    background = styleColorBar(as.numeric(comparison$AIC), '#dbeafe'),
-    backgroundSize = '100% 90%',
-    backgroundRepeat = 'no-repeat',
-    backgroundPosition = 'center'
-  )
+)
 ```
 
-<div class="key-finding">
+::: key-finding
 **Model Selection:** All three models confirm a significant positive association between PM2.5 and asthma ED rates. The interaction model provides the most nuanced understanding of borough-specific effects.
-</div>
+:::
 
----
+------------------------------------------------------------------------
 
 # Public Health Implications
 
-<div style="background: linear-gradient(to right, #f0f9ff, #e0f2fe); padding: 25px; border-radius: 12px; border-left: 5px solid #2563eb; margin: 25px 0;">
-
+::: {style="background: linear-gradient(to right, #f0f9ff, #e0f2fe); padding: 25px; border-radius: 12px; border-left: 5px solid #2563eb; margin: 25px 0;"}
 **Key Takeaways:**
 
-1. **Consistent Association:** PM2.5 is significantly associated with asthma ED visits across all statistical models
+1.  **Consistent Association:** PM2.5 is significantly associated with asthma ED visits across all statistical models
 
-2. **Environmental Justice:** The Bronx shows the strongest PM2.5-asthma relationship, suggesting disproportionate vulnerability in historically disadvantaged communities
+2.  **Environmental Justice:** The Bronx shows the strongest PM2.5-asthma relationship, suggesting disproportionate vulnerability in historically disadvantaged communities
 
-3. **Policy Relevance:** Reducing PM2.5 levels by 1 μg/m³ could prevent substantial asthma ED visits, especially in high-burden boroughs
+3.  **Policy Relevance:** Reducing PM2.5 levels by 1 μg/m³ could prevent substantial asthma ED visits, especially in high-burden boroughs
 
-4. **Temporal Trends:** Overall declining trends in both PM2.5 and asthma rates suggest policy interventions are working, but disparities persist
+4.  **Temporal Trends:** Overall declining trends in both PM2.5 and asthma rates suggest policy interventions are working, but disparities persist
 
-5. **Borough-Specific Interventions:** One-size-fits-all approaches may be insufficient; targeted interventions needed for communities with stronger PM2.5-asthma associations
+5.  **Borough-Specific Interventions:** One-size-fits-all approaches may be insufficient; targeted interventions needed for communities with stronger PM2.5-asthma associations
+:::
 
-</div>
+------------------------------------------------------------------------
 
----
+::: footer-box
+**Statistical Methods:** Linear Regression, Negative Binomial Regression, Interaction Models
 
-<div class="footer-box">
+**Software**: R (tidyverse, MASS, broom)
 
-**Statistical Methods:**
-- Linear Regression, Negative Binomial Regression, Interaction Models
-- Software: R (tidyverse, MASS, broom)
+**Data Sources:** PM2.5 Data: NYC Open Data, Asthma ED Data: NYC Department of Health and Mental Hygiene
 
-**Data Sources:**
-- PM2.5 Data: NYC Open Data
-- Asthma ED Data: NYC Department of Health and Mental Hygiene
-
-**Institution:** Columbia University Mailman School of Public Health | P8105 Data Science I
-
-</div>
+**Institution:** Columbia University Mailman School of Public Health \| P8105 Data Science I
+:::
