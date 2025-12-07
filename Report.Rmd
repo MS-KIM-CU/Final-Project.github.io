@@ -55,7 +55,7 @@ pm25_asthma <- read_csv("data/merged_pm25_asthma.csv") %>%
 
 # 1. Motivation
 
-Air pollution is a major public health concern in urban environments, and New York City (NYC) consistently reports high rates of respiratory illnesses, particularly asthma. Fine particulate matter (PM2.5)—particles with a diameter of 2.5 micrometers or less—can penetrate deep into the lungs and is known to trigger asthma symptoms and increase emergency department (ED) visits.
+Air pollution is a major public health concern in urban environments, and New York City (NYC) consistently reports high rates of respiratory illnesses, particularly asthma. Fine particulate matter (PM2.5), particles with a diameter of 2.5 micrometers or less, can penetrate deep into the lungs and is known to trigger asthma symptoms and increase emergency department (ED) visits.
 
 We chose this topic for several reasons:
 
@@ -185,7 +185,8 @@ p1 <- pm25_asthma %>%
     xaxis = list(title = "Year"),
     yaxis = list(title = "PM2.5 (μg/m³)"),
     hovermode = 'closest',
-    legend = list(title = list(text = '<b>Borough</b>'))
+    legend = list(title = list(text = '<b>Borough</b>')),
+    autosize = TRUE
   )
 
 p1
