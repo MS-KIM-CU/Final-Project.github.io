@@ -53,6 +53,7 @@ h2, h3, h4, h5, h6 {
   padding: 18px;
   margin: 20px 0;
   border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.1);
 }
 
 .spatial-insight strong {
@@ -65,7 +66,7 @@ h2, h3, h4, h5, h6 {
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-  margin: 20px 0;
+  overflow: hidden;
 }
 
 .warning-box {
@@ -95,7 +96,6 @@ h2, h3, h4, h5, h6 {
 }
 
 .leaflet-container {
-  height: 500px !important;
   border-radius: 8px;
 }
 </style>
@@ -164,10 +164,8 @@ nyc_boroughs <- nyc_boroughs_tiger %>%
 ```
 
 ```{r shapefile-info}
-cat("Coordinate Reference System:\n")
 st_crs(nyc_boroughs)
 
-cat("\nBoroughs:\n")
 nyc_boroughs %>% 
   st_drop_geometry() %>%
   select(borough) %>%
@@ -205,7 +203,7 @@ pal_pm25 <- colorNumeric(
   na.color = "transparent"
 )
 
-leaflet(spatial_data_2023) %>%
+leaflet(spatial_data_2023, width = "100%", height = "450px") %>%
   addProviderTiles(providers$CartoDB.Positron) %>%
   addPolygons(
     fillColor = ~pal_pm25(pm25_annual),
@@ -255,7 +253,7 @@ pal_asthma <- colorNumeric(
   na.color = "transparent"
 )
 
-leaflet(spatial_data_2023) %>%
+leaflet(spatial_data_2023, width = "100%", height = "450px") %>%
   addProviderTiles(providers$CartoDB.Positron) %>%
   addPolygons(
     fillColor = ~pal_asthma(asthma_rate),
@@ -456,14 +454,7 @@ datatable(
   options = list(pageLength = 5, dom = 't'),
   rownames = FALSE
 ) %>%
-  formatRound(c("pm25_annual", "asthma_rate"), 1) %>%
-  formatStyle(
-    'asthma_rate',
-    background = styleColorBar(summary_2023$asthma_rate, '#fecaca'),
-    backgroundSize = '100% 90%',
-    backgroundRepeat = 'no-repeat',
-    backgroundPosition = 'center'
-  )
+  formatRound(c("pm25_annual", "asthma_rate"), 1)
 ```
 
 ## Key Insights
@@ -472,9 +463,9 @@ datatable(
 
 **Geographic Patterns:**
 
-1. **PM2.5 Distribution:** Relatively uniform across boroughs (7.3-8.2 μg/m³), with Brooklyn slightly elevated
-2. **Asthma Disparities:** Stark contrast between the Bronx (172.4) and other boroughs (38.6-91.2)
-3. **Environmental Justice:** The 2-4x higher asthma rates in the Bronx suggest complex interactions beyond PM2.5 alone
+1. **PM2.5 Distribution:** Relatively uniform across boroughs (7.3-8.2 μg/m³), with Brooklyn slightly elevated.
+2. **Asthma Disparities:** Stark contrast between the Bronx (172.4) and other boroughs (38.6-91.2).
+3. **Environmental Justice:** The 2-4x higher asthma rates in the Bronx suggest complex interactions beyond PM2.5 alone.
 
 </div>
 
