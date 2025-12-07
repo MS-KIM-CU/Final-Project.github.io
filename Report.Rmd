@@ -14,6 +14,13 @@ output:
     df_print: paged
 ---
 
+<style>
+.plotly {
+  width: 100% !important;
+  max-width: 100%;
+}
+</style>
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
   echo = TRUE,
@@ -185,8 +192,7 @@ p1 <- pm25_asthma %>%
     xaxis = list(title = "Year"),
     yaxis = list(title = "PM2.5 (μg/m³)"),
     hovermode = 'closest',
-    legend = list(title = list(text = '<b>Borough</b>')),
-    autosize = TRUE
+    legend = list(title = list(text = '<b>Borough</b>'))
   )
 
 p1
